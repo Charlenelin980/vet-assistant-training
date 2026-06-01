@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>住院部助理自學訓練講義 — 人人動物醫院</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--td:#2A6B6B;--tm:#3A8888;--tl:#C8E6E6;--tp:#EEF8F8;--tt:#1A2E2E;--ti:#3A5555;--tx:#6A8888}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans TC',sans-serif;background:#F4FAFA;color:var(--tt);min-height:100vh}
+
+/* Header */
+.header{background:linear-gradient(135deg,#1A4A4A 0%,#2A6B6B 60%,#3A9090 100%);color:white;padding:36px 20px 32px;text-align:center}
+.header .hosp{font-size:12px;letter-spacing:3px;opacity:.7;margin-bottom:8px;font-weight:300}
+.header h1{font-family:'Noto Serif TC',serif;font-size:22px;font-weight:700;letter-spacing:1px;line-height:1.4}
+.header .tagline{font-size:12px;opacity:.6;margin-top:8px;letter-spacing:1px}
+.paw{font-size:28px;margin-bottom:10px;display:block}
+
+/* Search */
+.search-wrap{padding:14px 16px;background:white;border-bottom:1px solid var(--tl);position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(42,107,107,.1)}
+.search-wrap input{width:100%;padding:10px 16px 10px 40px;border:1.5px solid var(--tl);border-radius:24px;font-size:14px;font-family:'Noto Sans TC',sans-serif;color:var(--tt);background:var(--tp) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232A6B6B' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 13px center;outline:none;transition:border-color .2s}
+.search-wrap input:focus{border-color:var(--tm)}
+
+/* Grid */
+.content{padding:20px 16px 40px;max-width:680px;margin:0 auto}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:500px){.grid{grid-template-columns:1fr 1fr}}
+
+/* Book card */
+.book-card{background:white;border:1.5px solid var(--tl);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;display:block;box-shadow:0 2px 8px rgba(42,107,107,.08);transition:transform .15s, box-shadow .15s;-webkit-tap-highlight-color:transparent}
+.book-card:active{transform:scale(.98);box-shadow:0 1px 4px rgba(42,107,107,.12)}
+.book-card .card-top{padding:16px 16px 12px;display:flex;align-items:flex-start;gap:12px}
+.book-card .num-badge{background:var(--td);color:white;font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.book-card .card-text{}
+.book-card .book-num{font-size:11px;color:var(--tx);font-weight:500;letter-spacing:.5px;margin-bottom:2px}
+.book-card .book-title{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;color:var(--td);line-height:1.3}
+.book-card .card-tags{padding:0 16px 14px;display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:11.5px;background:var(--tp);border:1px solid var(--tl);color:var(--ti);padding:3px 9px;border-radius:12px;font-weight:500}
+.book-card .card-footer{background:var(--tp);padding:9px 16px;font-size:12px;color:var(--tx);display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--tl)}
+.card-footer .arrow{font-size:16px;color:var(--tm)}
+
+/* Hidden by search */
+.book-card.hidden{display:none}
+
+/* Footer */
+footer{text-align:center;padding:20px 16px;color:var(--tx);font-size:12px;border-top:1px solid var(--tl)}
+
+/* Notice */
+.notice{background:#FFF3CD;border:1px solid #E8C84A;border-radius:8px;padding:10px 14px;font-size:13px;color:#7A5000;margin-bottom:16px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="paw">🐾</span>
+  <div class="hosp">人人動物醫院平鎮分院</div>
+  <h1>住院部助理<br>自學訓練講義</h1>
+  <div class="tagline">共六冊 ✦ 點選冊別開始學習</div>
+</div>
+
+<div class="search-wrap">
+  <input type="search" id="searchInput" placeholder="搜尋講義名稱或主題…" oninput="doSearch(this.value)">
+</div>
+
+<div class="content">
+
+  <div class="notice">
+    📱 請用瀏覽器（Safari / Chrome）開啟各冊，功能才能正常使用
+  </div>
+
+  <div class="grid" id="bookGrid">
+
+    <a class="book-card" href="住院部助理訓練講義_第一冊_.html" data-keywords="醫療用具 注射器 針頭 輸液 縮寫 生理監控">
+      <div class="card-top">
+        <div class="num-badge">一</div>
+        <div class="card-text">
+          <div class="book-num">第一冊</div>
+          <div class="book-title">醫療用具識別 · 醫療縮寫</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">醫療用具</span>
+        <span class="tag">醫療縮寫</span>
+        <span class="tag">生理監控</span>
+      </div>
+      <div class="card-footer">
+        <span>3 個模組 · 自我測驗</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="book-card" href="住院部助理訓練講義_第二冊_.html" data-keywords="灌食 血壓 皮下注射 留置針 抽血">
+      <div class="card-top">
+        <div class="num-badge">二</div>
+        <div class="card-text">
+          <div class="book-num">第二冊</div>
+          <div class="book-title">灌食 · 血壓 · 皮下注射 · 留置針</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">灌食技術</span>
+        <span class="tag">血壓測量</span>
+        <span class="tag">皮下注射</span>
+        <span class="tag">留置針與抽血</span>
+      </div>
+      <div class="card-footer">
+        <span>4 個模組 · 自我測驗</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="book-card" href="住院部助理訓練講義_第三冊_.html" data-keywords="麻醉機 SV-3000 開機 關機 測漏 清潔">
+      <div class="card-top">
+        <div class="num-badge">三</div>
+        <div class="card-text">
+          <div class="book-num">第三冊</div>
+          <div class="book-title">麻醉機操作 · SV-3000</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">開關機與測漏</span>
+        <span class="tag">按鍵與設定</span>
+        <span class="tag">麻醉方式</span>
+        <span class="tag">清潔保養</span>
+      </div>
+      <div class="card-footer">
+        <span>4 個模組 · 自我測驗</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="book-card" href="住院部助理訓練講義_第四冊_.html" data-keywords="X光 拍攝 擺位 胸腔 腹腔 輻射安全">
+      <div class="card-top">
+        <div class="num-badge">四</div>
+        <div class="card-text">
+          <div class="book-num">第四冊</div>
+          <div class="book-title">X 光拍攝 · 擺位 · 輻射安全</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">拍攝前準備</span>
+        <span class="tag">胸腔擺位</span>
+        <span class="tag">腹腔擺位</span>
+        <span class="tag">輻射安全</span>
+      </div>
+      <div class="card-footer">
+        <span>5 個模組 · 自我測驗</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="book-card" href="住院部助理訓練講義_第五冊_.html" data-keywords="劉氏染色 血液抹片 染色 判讀 Liu stain">
+      <div class="card-top">
+        <div class="num-badge">五</div>
+        <div class="card-text">
+          <div class="book-num">第五冊</div>
+          <div class="book-title">劉氏染色 · 血液抹片製作</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Liu's Stain</span>
+        <span class="tag">抹片製作</span>
+        <span class="tag">染色步驟</span>
+        <span class="tag">結果判讀</span>
+      </div>
+      <div class="card-footer">
+        <span>6 個模組 · 自我測驗</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="book-card" href="住院部助理訓練講義_第六冊_臨床觀察.html" data-keywords="脫水 尿量 尿色 黏膜 CRT 糞便 臨床觀察">
+      <div class="card-top">
+        <div class="num-badge">六</div>
+        <div class="card-text">
+          <div class="book-num">第六冊</div>
+          <div class="book-title">犬貓臨床觀察</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">脫水評估</span>
+        <span class="tag">尿量與尿色</span>
+        <span class="tag">黏膜顏色</span>
+        <span class="tag">糞便評估</span>
+      </div>
+      <div class="card-footer">
+        <span>4 個模組 · 自我測驗</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div>🐾 人人動物醫院平鎮分院　住院部訓練講義</div>
+  <div style="margin-top:4px"><em>It's a beautiful day to save lives.</em></div>
+</footer>
+
+<script>
+function doSearch(val) {
+  val = val.trim().toLowerCase();
+  var cards = document.querySelectorAll('.book-card');
+  cards.forEach(function(card) {
+    if (!val) {
+      card.classList.remove('hidden');
+      return;
+    }
+    var keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+    var text = card.textContent.toLowerCase();
+    if (keywords.indexOf(val) !== -1 || text.indexOf(val) !== -1) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+</script>
+</body>
+</html>
