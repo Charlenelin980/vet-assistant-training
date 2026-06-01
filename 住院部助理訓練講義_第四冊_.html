@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>住院部助理訓練講義 第四冊</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--td:#2A6B6B;--tm:#3A8888;--tl:#C8E6E6;--tp:#EEF8F8;--tb:#F0F8F8;--rw:#C0392B;--rp:#FDECEA;--go:#C9A84C;--gp:#FDF6E3;--ap:#FFF3CD;--tt:#1A2E2E;--ti:#3A5555;--tx:#6A8888}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans TC',sans-serif;background:#F4FAFA;color:var(--tt);font-size:15px;line-height:1.7}
+.site-header{background:linear-gradient(135deg,#1A4A4A 0%,#2A6B6B 60%,#3A9090 100%);color:white;padding:14px 20px 12px;text-align:center}
+.site-header .hosp{font-size:12px;letter-spacing:2px;opacity:.75;margin-bottom:4px;font-weight:300}
+.site-header h1{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;letter-spacing:1px}
+.site-header .sub{font-size:12px;opacity:.65;margin-top:4px;letter-spacing:1px}
+.tab-bar{display:flex;background:#1A4A4A;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--tm);position:sticky;top:0;z-index:95}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex:0 0 auto;padding:10px 18px;font-size:13px;color:rgba(255,255,255,.6);background:none;border:none;cursor:pointer;white-space:nowrap;font-family:'Noto Sans TC',sans-serif;font-weight:500;transition:all .2s;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn.active,.tab-btn:hover{color:white;border-bottom-color:#7ECECE}
+.search-wrap{padding:12px 16px;background:white;border-bottom:1px solid var(--tl)}
+.search-wrap input{width:100%;padding:10px 16px 10px 38px;border:1.5px solid var(--tl);border-radius:24px;font-size:14px;font-family:'Noto Sans TC',sans-serif;color:var(--tt);background:var(--tb) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232A6B6B' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;outline:none;transition:border-color .2s}
+.search-wrap input:focus{border-color:var(--tm)}
+.content{padding:16px;max-width:780px;margin:0 auto}
+.section{display:none;animation:fadeIn .25s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.sec-title{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:700;color:var(--td);padding:14px 0 8px;border-bottom:2px solid var(--tl);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-title .num{background:var(--td);color:white;font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;font-family:'Noto Sans TC',sans-serif}
+.sub-title{font-size:15px;font-weight:700;color:var(--td);margin:20px 0 8px;padding-left:10px;border-left:3px solid var(--tm)}
+.desc{font-size:14px;color:var(--ti);margin-bottom:12px;padding:0 2px}
+.tbl-wrap{overflow-x:auto;margin-bottom:12px;border-radius:8px;box-shadow:0 1px 6px rgba(42,107,107,.1)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead tr{background:var(--td);color:white}
+thead th{padding:10px 12px;text-align:left;font-weight:600;white-space:nowrap}
+tbody tr:nth-child(odd){background:var(--tp)}
+tbody tr:nth-child(even){background:white}
+tbody td{padding:9px 12px;vertical-align:top;line-height:1.5}
+tbody td:first-child{font-weight:700;color:var(--td);white-space:nowrap}
+.notice{display:flex;gap:0;border-radius:6px;overflow:hidden;margin:10px 0 16px;box-shadow:0 1px 4px rgba(0,0,0,.08);font-size:13.5px}
+.notice .lbl{padding:12px 10px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;min-width:52px;text-align:center;line-height:1.4}
+.notice .bdy{padding:12px 14px;flex:1;line-height:1.6}
+.notice.warn .lbl{background:var(--rw);color:white}
+.notice.warn{border:1px solid #E8A09A}
+.notice.warn .bdy{background:var(--rp);color:#5A1A14}
+.notice.tip .lbl{background:var(--go);color:white}
+.notice.tip{border:1px solid #DDB040}
+.notice.tip .bdy{background:var(--gp);color:#5A3A00}
+.notice.supply .lbl{background:#2A7777;color:white}
+.notice.supply{border:1px solid var(--tm)}
+.notice.supply .bdy{background:var(--ap);color:#5A3A00;font-weight:500}
+.notice.info .lbl{background:#3A7AAA;color:white}
+.notice.info{border:1px solid #7AAAC8}
+.notice.info .bdy{background:#EEF4FA;color:#1A3A5A}
+.chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:white;border:1.5px solid var(--tm);color:var(--td);padding:4px 11px;border-radius:20px;font-size:13px;font-weight:600}
+.steps{margin:10px 0 16px;display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:0;align-items:stretch}
+.step-num{background:var(--td);color:white;font-size:13px;font-weight:700;min-width:32px;display:flex;align-items:flex-start;justify-content:center;padding:12px 0;border-radius:0;font-family:'Noto Serif TC',serif;position:relative}
+.step:first-child .step-num{border-radius:8px 0 0 0}
+.step:last-child .step-num{border-radius:0 0 0 8px}
+.step-num::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:2px;background:rgba(255,255,255,.25);height:100%}
+.step:last-child .step-num::after{display:none}
+.step-body{background:white;border:1px solid var(--tl);border-left:none;flex:1;padding:10px 14px;font-size:13.5px;line-height:1.6}
+.step:first-child .step-body{border-radius:0 8px 0 0}
+.step:last-child .step-body{border-radius:0 0 8px 0}
+.step-body strong{color:var(--td)}
+.qc{background:white;border:1.5px solid var(--tl);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer}
+.qc .q{font-size:14px;color:var(--tt);font-weight:500}
+.qc .a{margin-top:8px;padding:8px 12px;background:var(--tp);border-radius:6px;font-size:14px;font-weight:700;color:var(--td);display:none}
+.qc.rv .a{display:block}
+.qc .hn{font-size:12px;color:var(--tx);margin-top:6px}
+.mi{background:linear-gradient(135deg,var(--td),var(--tm));color:white;border-radius:10px;padding:16px 18px;margin-bottom:18px;font-size:13.5px;line-height:1.7}
+.mi strong{font-size:16px;display:block;margin-bottom:4px;font-family:'Noto Serif TC',serif}
+footer{text-align:center;padding:24px 16px;color:var(--tx);font-size:12px;border-top:1px solid var(--tl);margin-top:20px}
+mark{background:#FFF176;color:inherit;border-radius:2px;padding:0 1px}
+.sticky-top{position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(42,107,107,.3)}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.badge.cat{background:#A0C8E8;color:#1A3A5A}
+.badge.dog{background:#A8D8B0;color:#1A3A1A}
+.badge.both{background:#D8C8E8;color:#3A1A5A}
+ul.clist{margin:8px 0 12px 18px;font-size:13.5px;color:var(--ti);line-height:1.8}
+ul.clist li::marker{color:var(--tm)}
+ol.slist{margin:8px 0 12px 20px;font-size:13.5px;color:var(--ti);line-height:1.8}
+ol.slist li{margin-bottom:4px}
+ol.slist li::marker{color:var(--td);font-weight:700}
+/* 拍攝位置示意圖卡 */
+.pos-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 20px}
+@media(max-width:500px){.pos-cards{grid-template-columns:1fr}}
+.pos-card{border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(42,107,107,.12)}
+.pos-card .pc-head{padding:10px 14px;font-weight:700;font-size:14px;color:white;display:flex;align-items:center;gap:8px}
+.pos-card .pc-abbr{background:rgba(255,255,255,.2);border-radius:4px;font-size:11px;padding:2px 7px;font-weight:700;letter-spacing:1px}
+.pos-card .pc-body{background:white;padding:12px 14px;font-size:13px;color:var(--ti);line-height:1.6;border:1px solid var(--tl);border-top:none;border-radius:0 0 10px 10px}
+.pos-card .pc-body strong{color:var(--td)}
+.pc-lat .pc-head{background:#2A6B6B}
+.pc-vd  .pc-head{background:#5A7AAA}
+/* 判斷流程卡 */
+.decide-row{display:flex;align-items:stretch;gap:0;margin-bottom:6px}
+.decide-cond{background:var(--td);color:white;border-radius:8px 0 0 8px;padding:10px 14px;font-size:13px;font-weight:700;min-width:120px;display:flex;align-items:center;line-height:1.4}
+.decide-action{background:white;border:1px solid var(--tl);border-left:none;border-radius:0 8px 8px 0;flex:1;padding:10px 14px;font-size:13px;color:var(--ti);line-height:1.5}
+.decide-action strong{color:var(--td)}
+/* 輻射安全特別色 */
+.rad-warn{background:#4A1A1A;color:white;border-radius:8px;padding:12px 16px;margin:12px 0 16px;font-size:13.5px;line-height:1.7}
+.rad-warn strong{color:#FFD0D0;display:block;margin-bottom:4px}
+</style>
+</head>
+<body>
+<div class="sticky-top">
+<header class="site-header">
+  <div class="hosp">🏥 人人動物醫院平鎮分院</div>
+  <h1>住院部助理自學訓練講義</h1>
+  <div class="sub">第四冊：X 光拍攝 ✦ 擺位 · 適應症 · 輻射安全</div>
+</header>
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('m1',this)">模組一　何時需要拍 X 光</button>
+  <button class="tab-btn" onclick="switchTab('m2',this)">模組二　拍攝前準備</button>
+  <button class="tab-btn" onclick="switchTab('m3',this)">模組三　胸腔擺位</button>
+  <button class="tab-btn" onclick="switchTab('m4',this)">模組四　腹腔擺位</button>
+  <button class="tab-btn" onclick="switchTab('m5',this)">模組五　輻射安全</button>
+  <button class="tab-btn" onclick="switchTab('qz',this)">📝 自我測驗</button>
+</nav>
+<div class="search-wrap">
+  <input type="search" id="si" placeholder="搜尋擺位、適應症、注意事項…" oninput="doSearch(this.value)">
+</div>
+</div>
+<div class="content">
+
+<!-- ══════════════════════════════════════════
+     模組一　何時需要拍 X 光
+══════════════════════════════════════════ -->
+<div class="section active" id="m1">
+<div class="sec-title"><span class="num">模組一</span>何時需要拍 X 光</div>
+<p class="desc">X 光是住院部最常見的影像診斷工具。助理需要知道哪些臨床狀況必須拍攝，哪些需要先告知醫師評估，才能在第一時間協助醫師做出決定。</p>
+
+<div class="mi"><strong>助理的職責</strong>
+助理不可自行決定是否拍攝 X 光，所有 X 光拍攝均需醫師開立醫囑或口頭指示後方可執行。以下內容是協助你快速「辨識臨床症狀、第一時間通報醫師」的參考依據，不是自行判斷的標準。
+</div>
+
+<div class="sub-title">🔴 需立即告知值班醫師的狀況</div>
+<p class="desc">以下情況可能需要緊急拍攝 X 光，請在第一時間通報主治或值班醫師，不可拖延。</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>臨床症狀</th><th>懷疑問題</th><th>常拍部位</th><th>注意事項</th></tr></thead>
+  <tbody>
+    <tr><td>動物很喘、呼吸急促、張嘴呼吸</td><td>胸腔積液、氣胸、肺水腫、心臟擴大、橫膈膜疝氣</td><td>胸腔</td><td>⚠️ 嚴重喘的動物需先詢問醫師，是否適合擺位（VD 可能加重呼吸困難）</td></tr>
+    <tr><td>超過 24 小時沒有排尿 / 尿量極少</td><td>尿道阻塞、膀胱過度充盈、腎臟問題</td><td>腹腔</td><td>公貓尤其高風險，需緊急評估</td></tr>
+    <tr><td>腹部明顯膨大、緊繃</td><td>腹腔積液、腸道阻塞、脾臟腫塊、子宮蓄膿</td><td>腹腔</td><td>若極度緊張可能先照 Lat，VD 視醫師指示</td></tr>
+    <tr><td>嘔吐不止、超過數次且吐出異物</td><td>異物梗塞、腸道阻塞</td><td>腹腔</td><td>有時需加拍胸腔確認有無吸入性肺炎</td></tr>
+    <tr><td>超過 48 小時沒有排便 / 裡急後重</td><td>便祕、巨大結腸、骨盆腔阻塞</td><td>腹腔</td><td>確認最後排便時間，一併告知醫師</td></tr>
+    <tr><td>跌倒、車禍、高處墜落後</td><td>骨折、氣胸、內出血、橫膈膜撕裂</td><td>胸腔 ＋ 腹腔（視醫師）</td><td>外傷動物注意搬運，避免加重傷勢</td></tr>
+    <tr><td>咳嗽持續多日、運動不耐受</td><td>心臟疾病、氣管塌陷、肺炎</td><td>胸腔</td><td>需記錄咳嗽頻率與聲音特徵</td></tr>
+    <tr><td>後肢無力 / 癱瘓</td><td>椎間盤突出、脊椎骨折、腫瘤壓迫</td><td>脊椎（由醫師指示特定節段）</td><td>搬運時全程保持脊椎水平</td></tr>
+  </tbody>
+</table></div>
+
+<div class="notice warn"><div class="lbl">⚠️<br>優先<br>通報</div><div class="bdy">
+  動物有<strong>呼吸困難</strong>時，請先讓動物保持舒適姿勢、給氧（若醫師指示），再告知醫師。切勿急著壓制擺位，嚴重喘的動物在 VD 臥姿下可能快速惡化。
+</div></div>
+
+<div class="sub-title">🟡 需詢問醫師後執行的狀況</div>
+<p class="desc">以下狀況同樣需要拍攝 X 光，但緊急程度較低，請先告知醫師並等待醫囑。</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>臨床症狀</th><th>懷疑問題</th><th>常拍部位</th></tr></thead>
+  <tbody>
+    <tr><td>食慾不振超過 2 天</td><td>腹腔臟器異常、異物</td><td>腹腔</td></tr>
+    <tr><td>跛行、單肢不敢踩地</td><td>骨折、脫臼、關節炎</td><td>患肢（醫師指定部位）</td></tr>
+    <tr><td>術後常規追蹤</td><td>確認恢復狀況、植入物位置</td><td>視手術部位</td></tr>
+    <tr><td>懷孕確認 / 幼仔數量評估</td><td>懷孕週數、胎兒骨骼發育</td><td>腹腔</td></tr>
+    <tr><td>腫瘤分期術前評估</td><td>肺部轉移、腹腔腫塊</td><td>胸腔 ＋ 腹腔</td></tr>
+  </tbody>
+</table></div>
+
+<div class="sub-title">常見症狀快速判斷</div>
+<div class="decide-row"><div class="decide-cond">沒有排尿</div><div class="decide-action"><strong>立即告知醫師</strong>，記錄最後排尿時間、尿量、動物是否有蹲廁所姿勢但沒有尿出來。多半需要拍腹腔 X 光。</div></div>
+<div class="decide-row"><div class="decide-cond">動物很喘</div><div class="decide-action"><strong>馬上通報醫師</strong>，給予安靜環境，不可強制壓制。等醫師評估後決定是否需要拍胸腔 X 光，以及採用哪種擺位。</div></div>
+<div class="decide-row"><div class="decide-cond">便祕 / 不排便</div><div class="decide-action">告知醫師，記錄最後排便時間。醫師可能會安排腹腔 X 光確認糞便積量與結腸狀況。</div></div>
+<div class="decide-row"><div class="decide-cond">嘔吐多次</div><div class="decide-action">記錄嘔吐次數、內容物（食物 / 液體 / 血液 / 異物），告知醫師。可能需要腹腔 X 光。</div></div>
+<div class="decide-row"><div class="decide-cond">腹部膨大</div><div class="decide-action">告知醫師，觀察動物是否有疼痛反應。腹腔積液動物通常需要緊急處置。</div></div>
+
+</div><!-- /m1 -->
+
+<!-- ══════════════════════════════════════════
+     模組二　拍攝前準備
+══════════════════════════════════════════ -->
+<div class="section" id="m2">
+<div class="sec-title"><span class="num">模組二</span>拍攝前準備</div>
+<p class="desc">每次拍攝前確認人員、設備、動物狀態，可以減少重拍次數，也能保護工作人員安全。</p>
+
+<div class="sub-title">人員配置原則</div>
+<ul class="clist">
+  <li>至少需要 <strong>1 位操作人員</strong>（負責按曝光鍵）＋ <strong>1 位壓制人員</strong>（固定動物）。</li>
+  <li>壓制人員<strong>必須穿著鉛衣、戴鉛手套</strong>，不可以裸手在照射範圍內。</li>
+  <li>懷孕員工<strong>不可進入</strong>拍攝室，不可接觸散射輻射。</li>
+  <li>非必要人員全部退出拍攝室，關上門後再曝光。</li>
+</ul>
+
+<div class="notice warn"><div class="lbl">⚠️<br>輻射<br>安全</div><div class="bdy">
+  任何人不可讓自己的手、腳或身體其他部位進入 X 光主射束範圍。鉛衣只能阻擋<strong>散射線</strong>，無法完全阻擋主射束的直接照射。
+</div></div>
+
+<div class="sub-title">設備確認清單</div>
+<div class="chips">
+  <span class="chip">🔲 鉛衣（操作 / 壓制人員各一）</span>
+  <span class="chip">🔲 鉛手套</span>
+  <span class="chip">🔲 鉛圍領（選用）</span>
+  <span class="chip">🔲 X 光版（DR panel / 片匣）</span>
+  <span class="chip">🔲 沙袋 / 固定帶</span>
+  <span class="chip">🔲 泡棉楔形墊</span>
+  <span class="chip">🔲 標記貼（L / R 分辨左右）</span>
+  <span class="chip">🔲 確認機器已預熱</span>
+</div>
+
+<div class="sub-title">拍攝前動物評估</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>評估項目</th><th>如何確認</th><th>異常時處置</th></tr></thead>
+  <tbody>
+    <tr><td>呼吸狀態</td><td>觀察呼吸頻率與型態，是否有張嘴呼吸</td><td>立即告知醫師，不可強制壓制</td></tr>
+    <tr><td>意識狀態</td><td>動物是否清醒、對刺激有無反應</td><td>意識差的動物需醫師評估後再決定是否需要鎮靜</td></tr>
+    <tr><td>是否需要鎮靜</td><td>由醫師判斷，助理不可自行決定</td><td>通知醫師評估，備好鎮靜藥材</td></tr>
+    <tr><td>體重</td><td>確認已記錄今日體重</td><td>體重影響曝光參數設定</td></tr>
+  </tbody>
+</table></div>
+
+<div class="sub-title">拍攝步驟通則</div>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>醫師開立醫囑</strong><br>
+    確認拍攝部位（胸腔 / 腹腔 / 四肢）、拍攝方位（Lat / VD / DV）、是否需要鎮靜。
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>備妥防護裝備，確認人員就位</strong><br>
+    壓制人員穿好鉛衣與鉛手套。無關人員離開房間。
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>擺位（依部位操作，詳見模組三、四）</strong><br>
+    放置 X 光板於動物正確位置下方，確認標記（L/R）方向正確。
+  </div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body">
+    <strong>調整光束範圍（collimation）</strong><br>
+    調整光束準直器，使照射範圍剛好涵蓋目標部位，<strong>縮小射野</strong>可減少輻射劑量與散射線。
+  </div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body">
+    <strong>確認動物靜止後曝光</strong><br>
+    告知壓制人員「要照了」，確認動物靜止不動，再按下曝光鍵。
+  </div></div>
+  <div class="step"><div class="step-num">6</div><div class="step-body">
+    <strong>確認影像品質</strong><br>
+    在電腦或 DR 面板確認影像清晰、沒有晃動、目標部位完整涵蓋，若需重拍先告知醫師。
+  </div></div>
+  <div class="step"><div class="step-num">7</div><div class="step-body">
+    <strong>安置動物，整理設備</strong><br>
+    將動物放回舒適位置，鉛衣掛好（勿折疊），清潔 X 光板表面。
+  </div></div>
+</div>
+
+<div class="sub-title">常見拍攝位置術語</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>縮寫</th><th>全名</th><th>中文</th><th>說明</th></tr></thead>
+  <tbody>
+    <tr><td>Lat（RL）</td><td>Right Lateral</td><td>右側臥側照</td><td>動物右側朝下臥，X 光由左側進入</td></tr>
+    <tr><td>Lat（LL）</td><td>Left Lateral</td><td>左側臥側照</td><td>動物左側朝下臥，X 光由右側進入（心臟評估常用）</td></tr>
+    <tr><td>VD</td><td>Ventrodorsal</td><td>腹背位</td><td>動物仰躺，X 光由腹側（肚子）射向背側（背部）</td></tr>
+    <tr><td>DV</td><td>Dorsoventral</td><td>背腹位</td><td>動物趴著，X 光由背側射向腹側（喘的動物較舒適）</td></tr>
+  </tbody>
+</table></div>
+
+<div class="notice tip"><div class="lbl">💡<br>小技巧</div><div class="bdy">
+  胸腔側照建議在<strong>吸氣末</strong>曝光（肺部充氣最大），腹腔側照則在<strong>呼氣末</strong>或自然呼吸時曝光。等動物呼吸平穩後再按快門，可減少影像模糊。
+</div></div>
+
+</div><!-- /m2 -->
+
+<!-- ══════════════════════════════════════════
+     模組三　胸腔擺位
+══════════════════════════════════════════ -->
+<div class="section" id="m3">
+<div class="sec-title"><span class="num">模組三</span>胸腔擺位</div>
+<p class="desc">胸腔 X 光主要用於評估肺臟、心臟、縱膈腔、橫膈膜與胸腔積液。標準胸腔系列通常包含<strong>側照（Lat）</strong>與<strong>VD 或 DV</strong>，由醫師決定拍哪幾個方向。</p>
+
+<div class="sub-title">胸腔側照（Lateral）</div>
+<div class="pos-cards">
+  <div class="pos-card pc-lat">
+    <div class="pc-head">右側臥 <span class="pc-abbr">RL Lat</span></div>
+    <div class="pc-body">
+      <strong>常用於：</strong>一般胸腔評估<br>
+      <strong>動物位置：</strong>右側朝下臥<br>
+      X 光板置於動物右側（朝下側）下方
+    </div>
+  </div>
+  <div class="pos-card pc-lat" style="--td:#3A6B2A">
+    <div class="pc-head" style="background:#3A6B2A">左側臥 <span class="pc-abbr">LL Lat</span></div>
+    <div class="pc-body">
+      <strong>常用於：</strong>心臟評估（心臟貼近板面影像較清晰）<br>
+      <strong>動物位置：</strong>左側朝下臥<br>
+      X 光板置於動物左側（朝下側）下方
+    </div>
+  </div>
+</div>
+
+<div class="sub-title">胸腔側照（Lateral）操作步驟</div>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>確認側別，放置 X 光板</strong><br>
+    將 X 光板水平置於拍攝台上。依醫師指示決定左側臥或右側臥。
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>讓動物側臥，前後肢拉直</strong><br>
+    輕柔地讓動物側臥於板上。將<strong>前肢向前方拉直</strong>，避免肱骨壓住前胸肺野；<strong>後肢向後方拉直</strong>，避免壓住後半部胸腔。
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>脊椎與胸骨保持水平</strong><br>
+    確認動物身體沒有旋轉，脊椎與胸骨在同一水平面。可用泡棉楔形墊墊在胸骨下方輔助。<br>
+    <span style="color:var(--rw);font-size:12.5px">判斷標準：兩側肋骨弧度重疊（不是一大一小），代表沒有旋轉。</span>
+  </div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body">
+    <strong>確認照射範圍</strong><br>
+    光束範圍需涵蓋：前方到<strong>胸骨入口（第一肋骨前）</strong>，後方到<strong>橫膈膜後緣（含最後肋骨）</strong>，上下到脊椎與胸骨。
+  </div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body">
+    <strong>吸氣末曝光</strong><br>
+    觀察動物呼吸，在胸腔最大時（吸氣末）曝光，肺野面積最大，診斷效果最好。
+  </div></div>
+</div>
+
+<div class="notice info"><div class="lbl">ℹ️<br>擺位<br>判斷</div><div class="bdy">
+  側照品質判斷：<strong>肋骨要重疊</strong>（表示沒有旋轉），<strong>前肢不遮蓋肺野</strong>，<strong>橫膈膜要完整</strong>可見。若影像中兩側肋骨明顯錯位，代表動物有旋轉，可能需要重拍。
+</div></div>
+
+<div class="sub-title">胸腔 VD 位（Ventrodorsal）</div>
+<p class="desc">動物仰躺，背部朝下，X 光由腹側（肚子）射向背側（背部）。可對稱評估兩肺葉及心臟輪廓。</p>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>讓動物仰躺，脊椎在正中央</strong><br>
+    輕柔將動物翻仰躺。可用 V 型槽或兩個沙袋夾在兩側協助固定，確保脊椎正直、不歪向任何一側。
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>前肢向前方拉開</strong><br>
+    兩前肢向頭部方向拉直，使肱骨不壓住前葉肺野。可用沙袋或膠帶輕固定。
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>後肢自然放置或向後拉</strong><br>
+    後肢輕向後方伸直，避免壓住後葉與橫膈膜。
+  </div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body">
+    <strong>確認對稱性</strong><br>
+    從正上方看，確認胸骨在兩側肋骨中間。左右肋骨弧度對稱，代表動物沒有旋轉。
+  </div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body">
+    <strong>確認照射範圍後曝光</strong><br>
+    前方到第一肋骨，後方含完整橫膈膜，左右涵蓋肋骨外側緣。
+  </div></div>
+</div>
+
+<div class="notice warn"><div class="lbl">⚠️<br>呼吸<br>困難</div><div class="bdy">
+  <strong>呼吸困難的動物不建議強迫 VD 擺位</strong>。仰躺姿勢會使腹腔臟器壓迫肺部，加重呼吸困難。此類動物請告知醫師，醫師可能改以 <strong>DV（趴臥）</strong> 方式拍攝，或先以側照取代。
+</div></div>
+
+<div class="sub-title">胸腔 DV 位（Dorsoventral）</div>
+<p class="desc">動物<strong>趴著</strong>，胸骨貼地，X 光由背部（背側）射向腹部（腹側）。適合呼吸困難、無法耐受仰躺的動物。</p>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>讓動物趴臥，胸骨接觸板面</strong><br>
+    動物自然趴下，胸骨貼於板上，讓動物保持舒適。
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>確認頭部自然前伸，頸部不扭曲</strong><br>
+    過度彎曲頸部可能影響氣道，讓動物頭部保持自然伸展。
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>X 光球管在動物正上方</strong><br>
+    確認球管與動物背部中線垂直，照射範圍同 VD 位。
+  </div></div>
+</div>
+
+<div class="sub-title">胸腔擺位快速比較</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>方位</th><th>動物姿勢</th><th>優點</th><th>缺點 / 限制</th></tr></thead>
+  <tbody>
+    <tr><td>Lat（側照）</td><td>側臥</td><td>評估心臟大小、肺葉分布、橫膈膜</td><td>左右肺葉重疊，無法個別評估</td></tr>
+    <tr><td>VD</td><td>仰躺</td><td>左右肺葉分開，心臟輪廓對稱清楚</td><td>呼吸困難動物禁用</td></tr>
+    <tr><td>DV</td><td>趴臥</td><td>動物較舒適，呼吸困難時首選</td><td>心臟形狀與 VD 略有差異</td></tr>
+  </tbody>
+</table></div>
+
+</div><!-- /m3 -->
+
+<!-- ══════════════════════════════════════════
+     模組四　腹腔擺位
+══════════════════════════════════════════ -->
+<div class="section" id="m4">
+<div class="sec-title"><span class="num">模組四</span>腹腔擺位</div>
+<p class="desc">腹腔 X 光用於評估肝臟、脾臟、腎臟、膀胱、胃腸道、子宮等臟器。標準系列為<strong>側照（Lat）</strong>加<strong>VD</strong>。</p>
+
+<div class="sub-title">腹腔側照（Lateral）</div>
+<p class="desc">動物側臥，與胸腔側照擺法相似，但照射範圍後移至整個腹部。</p>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>動物右側臥（通常）</strong><br>
+    依醫師指示決定側別。右側臥最常見，可使幽門（胃出口）靠近板面而充氣，方便評估。
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>前後肢拉直，脊椎與胸骨水平</strong><br>
+    同胸腔側照，前肢向前、後肢向後拉直。<strong>確認腰椎與腹部沒有旋轉</strong>（判斷方式：兩側腰椎橫突對稱重疊）。
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>確認照射範圍</strong><br>
+    前方涵蓋<strong>橫膈膜（含最後肋骨）</strong>，後方到<strong>恥骨後緣</strong>（含整個膀胱），上下到脊椎背側與腹壁腹側。
+  </div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body">
+    <strong>呼氣末或平靜呼吸時曝光</strong><br>
+    腹腔不需要等吸氣，平靜呼吸或呼氣末曝光即可。
+  </div></div>
+</div>
+
+<div class="notice tip"><div class="lbl">💡<br>小技巧</div><div class="bdy">
+  腹腔側照時，確認<strong>膀胱有完整包含在照射範圍內</strong>，尤其懷疑泌尿系統問題時更重要。恥骨附近的膀胱很容易被切掉，須特別注意。
+</div></div>
+
+<div class="sub-title">腹腔 VD 位（Ventrodorsal）</div>
+<p class="desc">動物仰躺，背部朝下，可對稱評估兩側腎臟、膀胱輪廓、腸道分布。</p>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>動物仰躺，脊椎置中</strong><br>
+    用 V 型槽或沙袋夾住兩側協助固定，確保脊椎不歪斜。
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>後肢向後方伸展</strong><br>
+    雙後肢向後方輕拉伸直，可以用沙袋或膠帶固定腳踝部位，讓腹腔下腹部完整顯露。
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>前肢向前方拉開</strong><br>
+    兩前肢向前方拉直，避免前肢重疊在腹腔前半部。
+  </div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body">
+    <strong>確認對稱性</strong><br>
+    從正上方看，腸骨翼（骨盆翼）應對稱，代表動物沒有旋轉。
+  </div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body">
+    <strong>確認照射範圍後曝光</strong><br>
+    前方含橫膈膜，後方到恥骨後緣，左右涵蓋腹壁外側。
+  </div></div>
+</div>
+
+<div class="sub-title">腹腔擺位快速比較</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>方位</th><th>動物姿勢</th><th>主要評估</th><th>注意事項</th></tr></thead>
+  <tbody>
+    <tr><td>Lat（側照）</td><td>側臥</td><td>胃腸道氣體分布、腸道梗塞、腹腔整體</td><td>確認膀胱完整涵蓋</td></tr>
+    <tr><td>VD</td><td>仰躺</td><td>兩側腎臟對稱性、膀胱、骨盆腔</td><td>後肢拉直才能完整顯示下腹腔</td></tr>
+  </tbody>
+</table></div>
+
+<div class="sub-title">各症狀建議拍攝組合</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>懷疑問題</th><th>建議拍攝</th><th>特別注意</th></tr></thead>
+  <tbody>
+    <tr><td>膀胱阻塞 / 尿道阻塞</td><td>腹腔 Lat ＋ VD</td><td>確認膀胱大小、有無結石陰影</td></tr>
+    <tr><td>便祕 / 巨大結腸</td><td>腹腔 Lat ＋ VD</td><td>評估糞便積量與結腸擴張程度</td></tr>
+    <tr><td>腸道異物 / 阻塞</td><td>腹腔 Lat ＋ VD（有時加拍胸腔）</td><td>注意氣液平面（ileus pattern）</td></tr>
+    <tr><td>腹腔積液</td><td>腹腔 Lat ＋ VD</td><td>積液會使腹腔細節模糊，需告知醫師</td></tr>
+    <tr><td>懷孕幼仔數量</td><td>腹腔 Lat ＋ VD</td><td>幼仔骨骼 45 天以上才清晰可見</td></tr>
+    <tr><td>子宮蓄膿</td><td>腹腔 Lat ＋ VD</td><td>子宮管狀膨大影像</td></tr>
+  </tbody>
+</table></div>
+
+<div class="notice info"><div class="lbl">ℹ️<br>貓咪<br>提醒</div><div class="bdy">
+  貓咪常見的尿道阻塞多為公貓，症狀是<strong>頻繁蹲廁所但無尿、外陰部舔舐、嗚叫、嗜睡</strong>。懷疑時立即告知醫師，拍腹腔 X 光可看膀胱大小，協助決定是否緊急導尿。
+</div></div>
+
+</div><!-- /m4 -->
+
+<!-- ══════════════════════════════════════════
+     模組五　輻射安全
+══════════════════════════════════════════ -->
+<div class="section" id="m5">
+<div class="sec-title"><span class="num">模組五</span>輻射安全</div>
+<p class="desc">X 光輻射對人體有潛在傷害，醫院規定所有工作人員必須嚴格遵守防護原則，確保自身與同事的安全。</p>
+
+<div class="rad-warn">
+  <strong>⚠️ 輻射防護三原則：時間 · 距離 · 屏蔽</strong>
+  縮短暴露時間、增加與射源距離、使用適當屏蔽（鉛衣）。三者缺一不可。
+</div>
+
+<div class="sub-title">個人防護裝備（PPE）</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>裝備</th><th>使用時機</th><th>注意事項</th></tr></thead>
+  <tbody>
+    <tr><td>鉛衣</td><td>所有進入拍攝室且無法離開的人員</td><td>穿前確認無破損，使用後掛好勿折疊（折疊會損壞鉛層）</td></tr>
+    <tr><td>鉛手套</td><td>手部需靠近動物固定時</td><td>手絕不可進入主射束範圍</td></tr>
+    <tr><td>鉛圍領</td><td>需要保護甲狀腺時（選用）</td><td>甲狀腺對輻射特別敏感</td></tr>
+    <tr><td>輻射劑量計（TLD）</td><td>常規 X 光工作人員配戴</td><td>依院內規定配戴，定期送驗</td></tr>
+  </tbody>
+</table></div>
+
+<div class="sub-title">拍攝室規定</div>
+<ul class="clist">
+  <li>非必要人員<strong>曝光前全部退出</strong>拍攝室，關上門後再操作。</li>
+  <li><strong>懷孕員工禁止</strong>進入拍攝室，也不可接觸散射線（遠離拍攝現場）。</li>
+  <li>壓制動物時，手部及身體<strong>不可進入 X 光主射束範圍</strong>，即使戴了鉛手套也一樣。</li>
+  <li>操作人員站在<strong>防護屏障後方</strong>或走出房間後再曝光。</li>
+  <li>盡量使用<strong>沙袋、膠帶、固定帶</strong>代替人手壓制，減少人員曝露。</li>
+</ul>
+
+<div class="notice warn"><div class="lbl">⚠️<br>嚴格<br>禁止</div><div class="bdy">
+  任何人<strong>不可抱著動物一起照 X 光</strong>，即使穿著鉛衣也不可以。主射束直接穿透鉛衣，風險極高。應使用沙袋、固定帶等工具固定動物。
+</div></div>
+
+<div class="sub-title">鉛衣保養與檢查</div>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>使用後直立懸掛</strong><br>
+    鉛衣使用完畢後應<strong>掛在衣架上垂直懸掛</strong>，不可折疊、堆疊或放在地板上，否則鉛層會斷裂產生破洞。
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>定期目視檢查</strong><br>
+    每月目視確認鉛衣表面有無明顯破損、縐折或不均勻。發現異常告知醫師安排 X 光驗證。
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>清潔方式</strong><br>
+    以<strong>濕布擦拭外表面</strong>，不可浸水清洗。鉛衣接縫處特別容易積累毛髮與污垢，需定期清潔。
+  </div></div>
+</div>
+
+<div class="sub-title">輻射劑量概念</div>
+<p class="desc">了解輻射量可以幫助工作人員正確評估風險，不過度恐慌也不輕忽。</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>情境</th><th>大約劑量</th><th>說明</th></tr></thead>
+  <tbody>
+    <tr><td>一張胸腔 X 光（人醫）</td><td>約 0.02 mSv</td><td>相當於搭機台北→東京的自然輻射量</td></tr>
+    <tr><td>年度職業輻射限制</td><td>20 mSv / 年</td><td>法規規定的工作人員年度上限</td></tr>
+    <tr><td>懷孕員工限制</td><td>1 mSv / 孕期</td><td>懷孕期間對胎兒的累計限制，應避免所有不必要曝露</td></tr>
+  </tbody>
+</table></div>
+
+<div class="notice tip"><div class="lbl">💡<br>正確<br>觀念</div><div class="bdy">
+  配戴鉛衣並遵守操作規範，獸醫院工作人員的年度輻射劑量通常遠低於法定上限。輻射安全的重點是<strong>建立正確習慣</strong>，不是過度恐懼而影響正常工作流程。
+</div></div>
+
+<div class="sub-title">異常狀況處理</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>異常狀況</th><th>處理方式</th></tr></thead>
+  <tbody>
+    <tr><td>不小心手進入射野被照到</td><td>立即告知院長 / 管理人員，記錄事件，評估是否需要增加劑量計監測頻率</td></tr>
+    <tr><td>懷疑自己可能懷孕</td><td>立即告知主管，暫停 X 光相關工作，確認後依規定調整職務</td></tr>
+    <tr><td>鉛衣發現破洞或龜裂</td><td>立即停止使用，告知醫師，安排送驗或更換</td></tr>
+    <tr><td>機器異常冒煙 / 異味</td><td>立即關閉電源，人員撤離，告知醫師聯絡廠商</td></tr>
+  </tbody>
+</table></div>
+
+</div><!-- /m5 -->
+
+<!-- ══════════════════════════════════════════
+     自我測驗
+══════════════════════════════════════════ -->
+<div class="section" id="qz">
+<div class="sec-title"><span class="num">測驗</span>自我評量</div>
+<p class="desc" style="margin-bottom:16px">點一下題目查看答案。確認自己真正理解後再翻答案。</p>
+
+<div class="qc" onclick="tq(this)"><div class="q">1. 發現住院貓咪超過 24 小時沒有排尿，助理第一步應該怎麼做？</div><div class="a">立即告知值班醫師，並記錄最後排尿時間、有無蹲廁所姿勢但排不出來。不可自行決定是否拍攝 X 光，需等待醫師指示。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">2. 動物呼吸困難時，可以直接幫牠擺 VD 位拍胸腔 X 光嗎？</div><div class="a">不可以。VD 仰躺姿勢會使腹腔臟器壓迫肺部，加重呼吸困難，嚴重時可能危及生命。應立即告知醫師，由醫師決定是否改用 DV 位（趴臥）或先以側照代替。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">3. VD 和 DV 拍攝位置有什麼差異？</div><div class="a">VD（腹背位）：動物仰躺，X 光由腹側射向背側。DV（背腹位）：動物趴臥，X 光由背側射向腹側。DV 對呼吸困難動物較舒適，VD 心臟輪廓較對稱清楚。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">4. 胸腔側照時，如何判斷動物身體沒有旋轉？</div><div class="a">看影像中兩側肋骨是否重疊（弧度一致），若重疊代表沒有旋轉；若兩側肋骨明顯錯位（一大一小），代表動物有旋轉，擺位不夠標準。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">5. 胸腔側照應在吸氣末還是呼氣末曝光？為什麼？</div><div class="a">吸氣末曝光。此時肺部充氣最多，肺野面積最大，診斷資訊最豐富，可以更清楚評估肺葉變化。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">6. 拍攝腹腔 X 光，照射範圍的前後界是哪裡？</div><div class="a">前方需涵蓋橫膈膜（含最後肋骨），後方需到恥骨後緣（含整個膀胱）。尤其懷疑泌尿系統問題時，膀胱完整包含在範圍內非常重要。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">7. 拍 X 光時，壓制動物的助理一定要穿什麼？</div><div class="a">必須穿著鉛衣，並戴鉛手套。且手部及身體絕對不可進入 X 光主射束範圍，即使穿了防護裝備也一樣。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">8. 懷孕員工可以穿鉛衣進去幫忙壓制動物嗎？</div><div class="a">不可以。懷孕員工禁止進入拍攝室，也不應接觸散射線。鉛衣無法完全阻擋主射束，且孕期輻射容許量極低（1 mSv），應完全迴避 X 光相關工作。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">9. 鉛衣使用完後，正確的收納方式是？</div><div class="a">掛在衣架上垂直懸掛，不可折疊、堆疊或放在地板上。折疊會使鉛層斷裂產生破洞，喪失防護效果。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">10. 便祕的動物通常需要拍哪些 X 光？主要評估什麼？</div><div class="a">腹腔側照（Lat）＋ VD，主要評估糞便積量多少、結腸是否擴張（巨大結腸），以及有無其他腹腔異常。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">11. 什麼是 RL Lat 和 LL Lat？分別在什麼情況用？</div><div class="a">RL Lat（右側臥側照）：右側朝下，為一般胸腔 / 腹腔最常用。LL Lat（左側臥側照）：左側朝下，心臟貼近板面，影像更清晰，常用於心臟評估。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">12. 拍 X 光前，有哪幾個動物評估項目是助理應該確認的？</div><div class="a">呼吸狀態（有無呼吸困難）、意識狀態（清醒程度）、是否需要鎮靜（由醫師決定）、今日體重（影響曝光參數）。發現異常立即告知醫師。</div><div class="hn">點一下查看答案</div></div>
+
+</div><!-- /qz -->
+
+</div><!-- /content -->
+
+<footer>
+  <div style="font-size:18px">🐾</div>
+  <div style="margin-top:6px"><em>It's a beautiful day to save lives.</em></div>
+  <div style="margin-top:4px">人人動物醫院平鎮分院　住院部訓練講義 第四冊</div>
+</footer>
+
+<script>
+function switchTab(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function tq(el){
+  el.classList.toggle('rv');
+  el.querySelector('.hn').style.display=el.classList.contains('rv')?'none':'';
+}
+function doSearch(val){
+  val=val.trim().toLowerCase();
+  document.querySelectorAll('mark').forEach(m=>m.replaceWith(m.textContent));
+  if(!val)return;
+  document.querySelectorAll('td,.bdy,.step-body,.desc,.btn-desc,.mc-body,.decide-action,.decide-cond').forEach(el=>{
+    if(el.textContent.toLowerCase().includes(val)){
+      el.innerHTML=el.innerHTML.replace(new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>'<mark>'+m+'</mark>');
+    }
+  });
+}
+</script>
+</body>
+</html>

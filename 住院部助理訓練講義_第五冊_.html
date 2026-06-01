@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>住院部助理訓練講義 第五冊</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--td:#2A6B6B;--tm:#3A8888;--tl:#C8E6E6;--tp:#EEF8F8;--tb:#F0F8F8;--rw:#C0392B;--rp:#FDECEA;--go:#C9A84C;--gp:#FDF6E3;--ap:#FFF3CD;--tt:#1A2E2E;--ti:#3A5555;--tx:#6A8888}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans TC',sans-serif;background:#F4FAFA;color:var(--tt);font-size:15px;line-height:1.7}
+.site-header{background:linear-gradient(135deg,#1A4A4A 0%,#2A6B6B 60%,#3A9090 100%);color:white;padding:14px 20px 12px;text-align:center}
+.site-header .hosp{font-size:12px;letter-spacing:2px;opacity:.75;margin-bottom:4px;font-weight:300}
+.site-header h1{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;letter-spacing:1px}
+.site-header .sub{font-size:12px;opacity:.65;margin-top:4px;letter-spacing:1px}
+.tab-bar{display:flex;background:#1A4A4A;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--tm);position:sticky;top:0;z-index:95}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex:0 0 auto;padding:10px 18px;font-size:13px;color:rgba(255,255,255,.6);background:none;border:none;cursor:pointer;white-space:nowrap;font-family:'Noto Sans TC',sans-serif;font-weight:500;transition:all .2s;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn.active,.tab-btn:hover{color:white;border-bottom-color:#7ECECE}
+.search-wrap{padding:12px 16px;background:white;border-bottom:1px solid var(--tl)}
+.search-wrap input{width:100%;padding:10px 16px 10px 38px;border:1.5px solid var(--tl);border-radius:24px;font-size:14px;font-family:'Noto Sans TC',sans-serif;color:var(--tt);background:var(--tb) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232A6B6B' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;outline:none;transition:border-color .2s}
+.search-wrap input:focus{border-color:var(--tm)}
+.content{padding:16px;max-width:780px;margin:0 auto}
+.section{display:none;animation:fadeIn .25s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.sec-title{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:700;color:var(--td);padding:14px 0 8px;border-bottom:2px solid var(--tl);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-title .num{background:var(--td);color:white;font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;font-family:'Noto Sans TC',sans-serif}
+.sub-title{font-size:15px;font-weight:700;color:var(--td);margin:20px 0 8px;padding-left:10px;border-left:3px solid var(--tm)}
+.desc{font-size:14px;color:var(--ti);margin-bottom:12px;padding:0 2px}
+.tbl-wrap{overflow-x:auto;margin-bottom:12px;border-radius:8px;box-shadow:0 1px 6px rgba(42,107,107,.1)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead tr{background:var(--td);color:white}
+thead th{padding:10px 12px;text-align:left;font-weight:600;white-space:nowrap}
+tbody tr:nth-child(odd){background:var(--tp)}
+tbody tr:nth-child(even){background:white}
+tbody td{padding:9px 12px;vertical-align:top;line-height:1.5}
+tbody td:first-child{font-weight:700;color:var(--td);white-space:nowrap}
+.notice{display:flex;gap:0;border-radius:6px;overflow:hidden;margin:10px 0 16px;box-shadow:0 1px 4px rgba(0,0,0,.08);font-size:13.5px}
+.notice .lbl{padding:12px 10px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;min-width:52px;text-align:center;line-height:1.4}
+.notice .bdy{padding:12px 14px;flex:1;line-height:1.6}
+.notice.warn .lbl{background:var(--rw);color:white}
+.notice.warn{border:1px solid #E8A09A}
+.notice.warn .bdy{background:var(--rp);color:#5A1A14}
+.notice.tip .lbl{background:var(--go);color:white}
+.notice.tip{border:1px solid #DDB040}
+.notice.tip .bdy{background:var(--gp);color:#5A3A00}
+.notice.supply .lbl{background:#2A7777;color:white}
+.notice.supply{border:1px solid var(--tm)}
+.notice.supply .bdy{background:var(--ap);color:#5A3A00;font-weight:500}
+.notice.info .lbl{background:#3A7AAA;color:white}
+.notice.info{border:1px solid #7AAAC8}
+.notice.info .bdy{background:#EEF4FA;color:#1A3A5A}
+.chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:white;border:1.5px solid var(--tm);color:var(--td);padding:4px 11px;border-radius:20px;font-size:13px;font-weight:600}
+.steps{margin:10px 0 16px;display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:0;align-items:stretch}
+.step-num{background:var(--td);color:white;font-size:13px;font-weight:700;min-width:32px;display:flex;align-items:flex-start;justify-content:center;padding:12px 0;font-family:'Noto Serif TC',serif;position:relative}
+.step:first-child .step-num{border-radius:8px 0 0 0}
+.step:last-child .step-num{border-radius:0 0 0 8px}
+.step-num::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:2px;background:rgba(255,255,255,.25);height:100%}
+.step:last-child .step-num::after{display:none}
+.step-body{background:white;border:1px solid var(--tl);border-left:none;flex:1;padding:10px 14px;font-size:13.5px;line-height:1.6}
+.step:first-child .step-body{border-radius:0 8px 0 0}
+.step:last-child .step-body{border-radius:0 0 8px 0}
+.step-body strong{color:var(--td)}
+.qc{background:white;border:1.5px solid var(--tl);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer}
+.qc .q{font-size:14px;color:var(--tt);font-weight:500}
+.qc .a{margin-top:8px;padding:8px 12px;background:var(--tp);border-radius:6px;font-size:14px;font-weight:700;color:var(--td);display:none}
+.qc.rv .a{display:block}
+.qc .hn{font-size:12px;color:var(--tx);margin-top:6px}
+.mi{background:linear-gradient(135deg,var(--td),var(--tm));color:white;border-radius:10px;padding:16px 18px;margin-bottom:18px;font-size:13.5px;line-height:1.7}
+.mi strong{font-size:16px;display:block;margin-bottom:4px;font-family:'Noto Serif TC',serif}
+footer{text-align:center;padding:24px 16px;color:var(--tx);font-size:12px;border-top:1px solid var(--tl);margin-top:20px}
+mark{background:#FFF176;color:inherit;border-radius:2px;padding:0 1px}
+.sticky-top{position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(42,107,107,.3)}
+ul.clist{margin:8px 0 12px 18px;font-size:13.5px;color:var(--ti);line-height:1.8}
+ul.clist li::marker{color:var(--tm)}
+ol.slist{margin:8px 0 12px 20px;font-size:13.5px;color:var(--ti);line-height:1.8}
+ol.slist li{margin-bottom:4px}
+ol.slist li::marker{color:var(--td);font-weight:700}
+
+/* 染色結果色塊 */
+.color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:12px 0 20px}
+.color-card{border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.12)}
+.color-card .cc-swatch{height:36px}
+.color-card .cc-body{background:white;padding:10px 12px;border:1px solid #ddd;border-top:none;border-radius:0 0 10px 10px}
+.color-card .cc-name{font-weight:700;font-size:13px;color:var(--tt);margin-bottom:2px}
+.color-card .cc-desc{font-size:12px;color:var(--ti);line-height:1.4}
+
+/* 品質判斷卡 */
+.qgrade{display:flex;align-items:stretch;gap:0;margin-bottom:6px}
+.qgrade-tag{border-radius:8px 0 0 8px;padding:10px 12px;font-size:12px;font-weight:700;min-width:48px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;color:white}
+.qgrade-body{background:white;border:1px solid var(--tl);border-left:none;border-radius:0 8px 8px 0;flex:1;padding:10px 14px;font-size:13px;color:var(--ti);line-height:1.5}
+.qgrade-body strong{color:var(--td)}
+.tag-good{background:#2A8A4A}
+.tag-ok{background:#C9A84C}
+.tag-bad{background:#C0392B}
+</style>
+</head>
+<body>
+<div class="sticky-top">
+<header class="site-header">
+  <div class="hosp">🏥 人人動物醫院平鎮分院</div>
+  <h1>住院部助理自學訓練講義</h1>
+  <div class="sub">第五冊：劉氏染色（Liu's Stain）✦ 血液抹片製作與染色</div>
+</header>
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('m1',this)">模組一　什麼是劉氏染色</button>
+  <button class="tab-btn" onclick="switchTab('m2',this)">模組二　器材與試劑</button>
+  <button class="tab-btn" onclick="switchTab('m3',this)">模組三　抹片製作</button>
+  <button class="tab-btn" onclick="switchTab('m4',this)">模組四　染色步驟</button>
+  <button class="tab-btn" onclick="switchTab('m5',this)">模組五　結果判讀基礎</button>
+  <button class="tab-btn" onclick="switchTab('m6',this)">模組六　常見失敗與處理</button>
+  <button class="tab-btn" onclick="switchTab('qz',this)">📝 自我測驗</button>
+</nav>
+<div class="search-wrap">
+  <input type="search" id="si" placeholder="搜尋步驟、試劑、染色結果…" oninput="doSearch(this.value)">
+</div>
+</div>
+<div class="content">
+
+<!-- ══════════════════════════════════════════
+     模組一　什麼是劉氏染色
+══════════════════════════════════════════ -->
+<div class="section active" id="m1">
+<div class="sec-title"><span class="num">模組一</span>什麼是劉氏染色</div>
+<p class="desc">劉氏染色（Liu's Stain）是獸醫臨床最常用的快速血液抹片染色法之一，屬於改良式 Romanowsky 染色家族，與 Wright's 染色、Diff-Quik 原理相同。可快速染色血球、細胞，協助醫師判讀。</p>
+
+<div class="mi"><strong>助理的職責</strong>
+助理負責製作品質良好的抹片並完成染色，結果的<strong>判讀與診斷由醫師執行</strong>。助理應確保：抹片薄而均勻、染色時間正確、沖洗乾淨、標記清楚。品質差的抹片會影響診斷，需告知醫師重做。
+</div>
+
+<div class="sub-title">劉氏染色的用途</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>檢體類型</th><th>評估內容</th><th>常見臨床情境</th></tr></thead>
+  <tbody>
+    <tr><td>血液抹片</td><td>白血球分類、紅血球形態、血小板估計</td><td>貧血、感染、白血病篩查、例行血球分析</td></tr>
+    <tr><td>細針抽吸（FNA）</td><td>腫塊細胞型態、發炎細胞</td><td>皮膚腫塊、淋巴結腫大評估</td></tr>
+    <tr><td>耳道分泌物</td><td>細菌、酵母菌、中性球</td><td>外耳炎診斷</td></tr>
+    <tr><td>皮膚刮片 / 印壓片</td><td>細菌、芽胞菌、細胞型態</td><td>皮膚感染、過敏性皮膚炎</td></tr>
+    <tr><td>尿液沉渣（輔助）</td><td>細胞分類</td><td>泌尿道感染、腫瘤細胞</td></tr>
+  </tbody>
+</table></div>
+
+<div class="sub-title">劉氏染色三液組成</div>
+<p class="desc">劉氏染色分為三瓶試劑，依序浸泡，缺一不可。</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>試劑</th><th>主要成分</th><th>作用</th><th>染色結果</th></tr></thead>
+  <tbody>
+    <tr><td>第一液（固定液）</td><td>甲醇（Methanol）</td><td>固定細胞，使細胞不變形脫落</td><td>無色，僅固定</td></tr>
+    <tr><td>第二液（酸性染料）</td><td>伊紅 Eosin（紅色酸性染料）</td><td>染細胞質、嗜酸性顆粒、紅血球</td><td>粉紅～橘紅色</td></tr>
+    <tr><td>第三液（鹼性染料）</td><td>亞甲藍 Methylene Blue（鹼性染料）</td><td>染細胞核、嗜鹼性顆粒</td><td>藍紫色</td></tr>
+  </tbody>
+</table></div>
+
+<div class="notice info"><div class="lbl">ℹ️<br>原理<br>概念</div><div class="bdy">
+  細胞內不同結構對酸性或鹼性染料的親和力不同：<strong>細胞核</strong>含 DNA（帶負電）→ 與鹼性染料（帶正電）結合 → 染成藍紫色。<strong>細胞質與紅血球</strong>帶正電 → 與酸性染料結合 → 染成粉紅色。了解原理有助於判斷染色失敗原因。
+</div></div>
+
+</div><!-- /m1 -->
+
+<!-- ══════════════════════════════════════════
+     模組二　器材與試劑
+══════════════════════════════════════════ -->
+<div class="section" id="m2">
+<div class="sec-title"><span class="num">模組二</span>器材與試劑</div>
+<p class="desc">備齊所有器材與試劑後再開始操作，可以避免中途慌亂造成失誤。</p>
+
+<div class="sub-title">必備器材清單</div>
+<div class="chips">
+  <span class="chip">🔲 玻片（無脂、乾燥）</span>
+  <span class="chip">🔲 推片用玻片（較窄）</span>
+  <span class="chip">🔲 劉氏染色第一液</span>
+  <span class="chip">🔲 劉氏染色第二液</span>
+  <span class="chip">🔲 劉氏染色第三液</span>
+  <span class="chip">🔲 染色缸（3 個）或染色架</span>
+  <span class="chip">🔲 蒸餾水 / 緩衝液（沖洗用）</span>
+  <span class="chip">🔲 計時器</span>
+  <span class="chip">🔲 鉛筆（標記玻片磨砂端）</span>
+  <span class="chip">🔲 吸水紙 / 紙巾</span>
+  <span class="chip">🔲 手套</span>
+  <span class="chip">🔲 顯微鏡油鏡（最終觀察用）</span>
+</div>
+
+<div class="sub-title">試劑保存與注意事項</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>試劑</th><th>保存方式</th><th>注意事項</th></tr></thead>
+  <tbody>
+    <tr><td>第一液（甲醇固定液）</td><td>室溫、遠離火源、密封保存</td><td>甲醇<strong>易揮發、易燃</strong>，使用時遠離火源；吸入過多甲醇蒸氣對人體有害，需在通風處操作</td></tr>
+    <tr><td>第二液（伊紅染液）</td><td>室溫避光，密封保存</td><td>染液長時間暴露空氣中會蒸發濃縮，影響染色效果；注意瓶口勿殘留染液結晶</td></tr>
+    <tr><td>第三液（亞甲藍染液）</td><td>室溫避光，密封保存</td><td>同上；使用後確認蓋緊</td></tr>
+    <tr><td>染色缸內的試劑</td><td>定期更換</td><td>使用超過建議次數或出現沉澱 / 顏色改變時需更換新液；染色缸蓋子使用後隨手蓋上</td></tr>
+  </tbody>
+</table></div>
+
+<div class="notice warn"><div class="lbl">⚠️<br>安全<br>注意</div><div class="bdy">
+  甲醇（第一液）<strong>有毒且易燃</strong>，操作時務必戴手套，在通風良好的地方使用，<strong>絕對不可靠近火源或酒精燈</strong>。若沾到皮膚立即以大量清水沖洗。染料會永久染色皮膚、衣物，操作時小心噴濺。
+</div></div>
+
+<div class="sub-title">玻片選擇與前處理</div>
+<ul class="clist">
+  <li>使用<strong>乾淨、無油脂</strong>的新玻片，手指不可碰觸玻片表面（會留下油脂，導致細胞無法均勻附著）。</li>
+  <li>取出玻片時<strong>拿邊緣</strong>，避免手指接觸表面。</li>
+  <li>若玻片有磨砂端，用<strong>鉛筆</strong>（非原子筆，甲醇會溶解原子筆墨水）在磨砂端寫上動物名稱、日期、檢體部位。</li>
+  <li>玻片若有灰塵，可用無塵紙巾輕拭，<strong>不可用手指擦</strong>。</li>
+</ul>
+
+</div><!-- /m2 -->
+
+<!-- ══════════════════════════════════════════
+     模組三　抹片製作
+══════════════════════════════════════════ -->
+<div class="section" id="m3">
+<div class="sec-title"><span class="num">模組三</span>抹片製作（以血液抹片為例）</div>
+<p class="desc">好的抹片是好染色的基礎。抹片太厚、太薄、不均勻都會影響診斷品質。熟悉推片手法需要多次練習。</p>
+
+<div class="sub-title">血滴大小與位置</div>
+<div class="notice tip"><div class="lbl">💡<br>關鍵<br>重點</div><div class="bdy">
+  血滴大小直接決定抹片厚薄。<strong>血滴約 2–3 mm（綠豆大小）</strong>最為理想。滴太多抹片太厚，滴太少抹片太短，尾端不完整。血滴放置在玻片距一端<strong>約 1–1.5 cm</strong>處（非最末端）。
+</div></div>
+
+<div class="sub-title">推片操作步驟</div>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>取得血液樣本，滴一小滴於玻片上</strong><br>
+    從 EDTA 抗凝血管中取血，或直接使用新鮮採集的血液。將約 2–3 mm 的血滴滴在距玻片一端約 1–1.5 cm 處。<br>
+    <span style="font-size:12.5px;color:var(--rw)">注意：血液若已放置超過 2 小時，白血球形態會改變，影響分類正確性。盡量使用新鮮血液。</span>
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>將推片以 30–45° 角靠近血滴</strong><br>
+    取第二片較窄的玻片（推片）作為推片工具，將推片末端以 <strong>30–45° 夾角</strong>靠向血滴，讓血液沿推片邊緣均勻擴散。等待血液擴散至推片整個寬度後再推進。<br>
+    <span style="font-size:12.5px;color:var(--ti)">角度越小 → 抹片越薄；角度越大 → 抹片越厚。白血球較高的動物可角度小一些。</span>
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>平穩快速向前推</strong><br>
+    確認血液沿推片寬度均勻擴散後，以<strong>平穩、均速、快速</strong>的動作向前推至玻片另一端。中途不可停頓、不可回推。用力要均勻，讓推片貼著底片玻片滑動。
+  </div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body">
+    <strong>確認抹片形狀</strong><br>
+    理想的抹片形狀為<strong>舌形（手指狀）</strong>：開頭稍厚，中間漸薄，尾端呈羽毛狀邊緣（feathered edge）。抹片長度約佔玻片的 2/3。
+  </div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body">
+    <strong>在空氣中自然風乾</strong><br>
+    抹片完成後在空氣中<strong>自然風乾</strong>，勿加熱或吹氣加速。完全乾燥後才可進行染色，否則細胞會脫落。天氣潮濕時可稍微搖動加速風乾（約 1–2 分鐘）。
+  </div></div>
+</div>
+
+<div class="sub-title">理想抹片品質判斷</div>
+<div class="qgrade"><div class="qgrade-tag tag-good">✓ 良好</div><div class="qgrade-body">舌形輪廓、尾端有羽毛狀邊緣（feathered edge）、厚薄漸進均勻、長度約佔玻片 2/3、無空洞或條紋。</div></div>
+<div class="qgrade"><div class="qgrade-tag tag-ok">△ 尚可</div><div class="qgrade-body">抹片略厚或略短，但仍有可供判讀的薄區；告知醫師，視情況決定是否重做。</div></div>
+<div class="qgrade"><div class="qgrade-tag tag-bad">✗ 需重做</div><div class="qgrade-body"><strong>整片太厚（血球全部堆疊）、有明顯條紋或斷裂、抹片太短沒有尾端</strong>、玻片有油脂造成空洞、細胞全部集中在邊緣。請告知醫師並重新採血製作。</div></div>
+
+<div class="sub-title">其他檢體的塗抹方式</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>檢體類型</th><th>塗抹方式</th><th>注意事項</th></tr></thead>
+  <tbody>
+    <tr><td>細針抽吸（FNA）</td><td>將針筒內容物輕推至玻片，用另一片玻片以<strong>壓印推開</strong>（squash prep）或輕推</td><td>勿過度壓碎細胞；若樣本量少，直接塗薄即可</td></tr>
+    <tr><td>耳道分泌物</td><td>用棉棒滾動塗抹於玻片，厚薄適中</td><td>棉棒<strong>滾動</strong>塗抹（非來回刷），保持細胞完整</td></tr>
+    <tr><td>皮膚印壓片</td><td>將玻片直接壓在病灶表面，輕壓後提起</td><td>不需額外塗抹，直接染色</td></tr>
+  </tbody>
+</table></div>
+
+</div><!-- /m3 -->
+
+<!-- ══════════════════════════════════════════
+     模組四　染色步驟
+══════════════════════════════════════════ -->
+<div class="section" id="m4">
+<div class="sec-title"><span class="num">模組四</span>染色步驟</div>
+<p class="desc">劉氏染色依序將抹片浸入三液，時間控制是品質關鍵。以下為標準操作流程，實際時間可依院內試劑批號或醫師指示微調。</p>
+
+<div class="notice supply"><div class="lbl">📋<br>本院<br>標準</div><div class="bdy">
+  各液浸泡時間請依院內規定為準（不同廠牌試劑濃度不同，時間可能略有差異）。以下為常用參考時間，<strong>若院內有特定時間規定，以院內規定優先</strong>。
+</div></div>
+
+<div class="sub-title">標準染色流程</div>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>確認抹片已完全乾燥</strong><br>
+    目視確認玻片上無明顯水氣或血色液體反光，完全乾燥後才可進行固定。未乾燥就固定，細胞容易脫落。
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>第一液（固定液）浸泡：約 30 秒</strong><br>
+    將抹片面朝下（或依染色缸設計浸入），完全浸入第一液中，計時 <strong>30 秒</strong>（約 15–20 次上下提拉，或靜置）。取出後不需沖水，直接進入第二液。<br>
+    <span style="font-size:12.5px;color:var(--ti)">目的：甲醇固定細胞，使細胞結構穩定，不因後續水分接觸而變形。</span>
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>第二液（伊紅染液）浸泡：約 30 秒</strong><br>
+    取出後直接放入第二液，計時 <strong>30 秒</strong>。取出後以<strong>緩流蒸餾水或緩衝液</strong>輕輕沖洗，去除多餘染液，直至流下的水顏色接近透明。<br>
+    <span style="font-size:12.5px;color:var(--ti)">沖洗時水流勿直接沖玻片中央，從一側輕輕沖，避免細胞被沖掉。</span>
+  </div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body">
+    <strong>第三液（亞甲藍染液）浸泡：約 30 秒</strong><br>
+    沖洗後放入第三液，計時 <strong>30 秒</strong>。取出後再次以蒸餾水輕輕沖洗，至流出水呈淡藍至透明為止。<br>
+    <span style="font-size:12.5px;color:var(--ti)">第三液染色後的沖洗尤其重要，沖洗不足會有大量藍色背景沉澱，影響觀察。</span>
+  </div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body">
+    <strong>直立風乾，勿用紙巾擦拭抹片面</strong><br>
+    將玻片以<strong>直立方式</strong>架在吸水紙或架上自然風乾。勿用紙巾直接擦拭抹片表面，會刮掉細胞。玻片背面（非抹片面）可輕輕擦乾。
+  </div></div>
+  <div class="step"><div class="step-num">6</div><div class="step-body">
+    <strong>乾燥後交給醫師判讀</strong><br>
+    完全乾燥後（通常 1–3 分鐘），在磨砂端確認標記清楚，交給醫師。若需長期保存，可加蓋玻片封片。
+  </div></div>
+</div>
+
+<div class="sub-title">各步驟時間總結</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>步驟</th><th>試劑</th><th>參考時間</th><th>後續處理</th></tr></thead>
+  <tbody>
+    <tr><td>固定</td><td>第一液（甲醇）</td><td>30 秒</td><td>直接入第二液，不需沖水</td></tr>
+    <tr><td>酸性染色</td><td>第二液（伊紅）</td><td>30 秒</td><td>蒸餾水輕輕沖洗</td></tr>
+    <tr><td>鹼性染色</td><td>第三液（亞甲藍）</td><td>30 秒</td><td>蒸餾水輕輕沖洗</td></tr>
+    <tr><td>風乾</td><td>—</td><td>1–3 分鐘</td><td>直立置放，勿擦拭抹片面</td></tr>
+  </tbody>
+</table></div>
+
+<div class="notice tip"><div class="lbl">💡<br>沖洗<br>技巧</div><div class="bdy">
+  沖洗時用<strong>蒸餾水（或緩衝液）</strong>，避免使用自來水，自來水的 pH 值不穩定，可能影響染色結果（偏酸使抹片偏粉，偏鹼使抹片偏藍）。水流從玻片一側輕輕流過，<strong>不可直接對著抹片正中央沖</strong>。
+</div></div>
+
+</div><!-- /m4 -->
+
+<!-- ══════════════════════════════════════════
+     模組五　染色結果基礎判讀
+══════════════════════════════════════════ -->
+<div class="section" id="m5">
+<div class="sec-title"><span class="num">模組五</span>染色結果基礎判讀</div>
+<p class="desc">助理不需要做完整的血球分類，但需要能判斷「染色品質是否合格」，以及對基本細胞顏色有初步認識，以便協助醫師確認抹片品質。</p>
+
+<div class="sub-title">正常染色顏色對照</div>
+<div class="color-grid">
+  <div class="color-card">
+    <div class="cc-swatch" style="background:#E8A0A8"></div>
+    <div class="cc-body"><div class="cc-name">紅血球（RBC）</div><div class="cc-desc">粉紅～橘粉色，中央有淡染區（雙面凹）</div></div>
+  </div>
+  <div class="color-card">
+    <div class="cc-swatch" style="background:#5A4A8A"></div>
+    <div class="cc-body"><div class="cc-name">細胞核</div><div class="cc-desc">深藍紫色（白血球核、幼稚細胞）</div></div>
+  </div>
+  <div class="color-card">
+    <div class="cc-swatch" style="background:#C8A0D0"></div>
+    <div class="cc-body"><div class="cc-name">淋巴球細胞質</div><div class="cc-desc">少量淡藍色細胞質，核深藍紫</div></div>
+  </div>
+  <div class="color-card">
+    <div class="cc-swatch" style="background:#F0C080"></div>
+    <div class="cc-body"><div class="cc-name">嗜中性球細胞質</div><div class="cc-desc">淡粉 / 無色細胞質，核呈分葉紫色</div></div>
+  </div>
+  <div class="color-card">
+    <div class="cc-swatch" style="background:#E87050"></div>
+    <div class="cc-body"><div class="cc-name">嗜酸性球顆粒</div><div class="cc-desc">明亮橘紅色顆粒，核藍紫分葉</div></div>
+  </div>
+  <div class="color-card">
+    <div class="cc-swatch" style="background:#7090C8"></div>
+    <div class="cc-body"><div class="cc-name">嗜鹼性球顆粒</div><div class="cc-desc">深藍至紫黑色顆粒</div></div>
+  </div>
+  <div class="color-card">
+    <div class="cc-swatch" style="background:#B0C8A0"></div>
+    <div class="cc-body"><div class="cc-name">血小板（PLT）</div><div class="cc-desc">小型淡紫色顆粒狀，散布於紅血球之間</div></div>
+  </div>
+  <div class="color-card">
+    <div class="cc-swatch" style="background:#F8E8D0"></div>
+    <div class="cc-body"><div class="cc-name">背景（血漿）</div><div class="cc-desc">幾乎無色至極淡粉色，乾淨無沉澱</div></div>
+  </div>
+</div>
+
+<div class="sub-title">助理品質檢查重點（低倍鏡確認）</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>確認項目</th><th>合格標準</th><th>不合格時</th></tr></thead>
+  <tbody>
+    <tr><td>抹片尾端</td><td>有羽毛狀邊緣，血球分佈均勻</td><td>太厚、無尾端 → 可能需重做</td></tr>
+    <tr><td>背景顏色</td><td>幾乎透明，無大量藍色或粉色沉澱</td><td>沉澱過多 → 沖洗不夠或試劑污染</td></tr>
+    <tr><td>紅血球顏色</td><td>粉紅色，有中央淡染區</td><td>全藍 → 過度染色或沖洗不足；全白 → 固定不良</td></tr>
+    <tr><td>細胞核</td><td>清晰藍紫色，結構可辨</td><td>顏色太淡 → 第三液時間不足</td></tr>
+    <tr><td>細胞分佈</td><td>血球均勻散布，不成堆</td><td>全部堆疊 → 抹片太厚，需重做</td></tr>
+  </tbody>
+</table></div>
+
+<div class="sub-title">觀察順序建議</div>
+<ol class="slist">
+  <li>先用<strong>低倍鏡（10×）</strong>確認抹片整體分佈，找到細胞分散的薄區（通常在抹片尾端 1/3 處）。</li>
+  <li>換<strong>高倍鏡（40×）</strong>確認細胞清晰度與背景乾淨程度。</li>
+  <li>若需詳細形態觀察，換<strong>油鏡（100×）</strong>並滴上鏡油，觀察細胞核、顆粒細節。</li>
+  <li>觀察完畢後告知醫師結果或等醫師親自判讀，不可自行記錄診斷。</li>
+</ol>
+
+<div class="notice info"><div class="lbl">ℹ️<br>助理<br>責任</div><div class="bdy">
+  助理的工作是確保抹片品質合格並交給醫師，<strong>白血球分類計數、貧血診斷、腫瘤細胞判斷均由醫師執行</strong>。若發現明顯異常（如大量奇怪細胞、完全看不到細胞），告知醫師請其確認。
+</div></div>
+
+</div><!-- /m5 -->
+
+<!-- ══════════════════════════════════════════
+     模組六　常見失敗與處理
+══════════════════════════════════════════ -->
+<div class="section" id="m6">
+<div class="sec-title"><span class="num">模組六</span>常見失敗原因與處理</div>
+<p class="desc">染色失敗有固定的原因，了解原因才能快速找出問題並改善。遇到不確定的情況，先告知醫師再決定是否重做。</p>
+
+<div class="sub-title">抹片製作常見問題</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>問題外觀</th><th>可能原因</th><th>改善方式</th></tr></thead>
+  <tbody>
+    <tr><td>抹片太厚、血球全部堆疊</td><td>血滴太大、推片角度太大（超過 45°）、推進速度太慢</td><td>減少血量、降低角度至 30°、加快推進速度</td></tr>
+    <tr><td>抹片太薄、太短</td><td>血滴太少、推片角度太小</td><td>稍微增加血量或加大角度</td></tr>
+    <tr><td>抹片有條紋或裂痕</td><td>推片邊緣有缺口或不平整、中途停頓或回推</td><td>更換新推片，一次平穩推到底</td></tr>
+    <tr><td>抹片有圓形空洞</td><td>玻片表面有油脂（手指觸碰）</td><td>更換乾淨玻片，取片時只碰邊緣</td></tr>
+    <tr><td>血球全部集中在邊緣</td><td>血液已開始凝固，或 EDTA 量不足</td><td>使用更新鮮的血液；確認採血管有充分混勻</td></tr>
+  </tbody>
+</table></div>
+
+<div class="sub-title">染色常見問題</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>染色外觀</th><th>可能原因</th><th>改善方式</th></tr></thead>
+  <tbody>
+    <tr><td>整片太藍（細胞核與細胞質均藍）</td><td>第三液時間太長、沖洗不足、沖洗水偏鹼性</td><td>縮短第三液浸泡時間；使用蒸餾水或緩衝液沖洗；確認充分沖洗</td></tr>
+    <tr><td>整片太粉紅（核色不清晰）</td><td>第三液時間太短、沖洗過度、沖洗水偏酸性</td><td>延長第三液浸泡時間；確認沖洗水 pH 接近中性</td></tr>
+    <tr><td>背景有大量藍色沉澱顆粒</td><td>第三液沖洗不足、試劑已污染或過期</td><td>加強沖洗；確認試劑品質，必要時更換新液</td></tr>
+    <tr><td>細胞大量脫落、玻片幾乎空白</td><td>抹片未完全乾燥就放入染液、玻片有油脂</td><td>確認完全乾燥後再染色；更換乾淨玻片</td></tr>
+    <tr><td>紅血球顏色蒼白幾乎不可見</td><td>固定時間不足、抹片未乾燥、第一液已失效（甲醇蒸發）</td><td>確認第一液有效；延長固定時間；確認乾燥</td></tr>
+    <tr><td>染色深淺不均勻</td><td>玻片未完全浸入染液、染色缸液面太低</td><td>確認玻片完全浸入；補充染液至適當液面高度</td></tr>
+  </tbody>
+</table></div>
+
+<div class="sub-title">試劑品質監控</div>
+<ul class="clist">
+  <li>染色缸內的試劑<strong>外觀改變</strong>（顏色變淺、出現大量沉澱）時需更換。</li>
+  <li>若連續多張抹片染色結果都偏色，先懷疑試劑問題，告知醫師更換新液後重試。</li>
+  <li>更換新試劑後用一張<strong>舊的品質良好片</strong>（或正常血液新做的抹片）試染，確認顏色正確後才繼續使用。</li>
+  <li>染色缸<strong>定期清洗</strong>，避免舊試劑殘留污染新液。</li>
+</ul>
+
+<div class="notice tip"><div class="lbl">💡<br>快速<br>判斷</div><div class="bdy">
+  每次染完片後，拿起玻片對著燈光看：背景應該<strong>幾乎透明</strong>，帶有淡淡的藍粉混合色澤。若整片呈現明顯深藍或深粉，代表沖洗不足或浸泡時間有問題，需在顯微鏡確認前先告知醫師。
+</div></div>
+
+<div class="sub-title">染色缸維護</div>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><div class="step-body">
+    <strong>使用後蓋緊蓋子</strong><br>
+    第一液（甲醇）蒸發快，每次使用後立即蓋緊。第二、三液也需蓋好避免蒸發濃縮與污染。
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">
+    <strong>定期更換試劑（依院內規定）</strong><br>
+    通常建議每 20–30 次使用或每週更換，依各院試劑用量調整。發現顏色異常時隨時更換。
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">
+    <strong>清洗染色缸</strong><br>
+    倒出舊液後，以清水沖洗染色缸內壁，再用酒精擦拭，晾乾後再倒入新試劑。殘留舊液會污染新液。
+  </div></div>
+</div>
+
+</div><!-- /m6 -->
+
+<!-- ══════════════════════════════════════════
+     自我測驗
+══════════════════════════════════════════ -->
+<div class="section" id="qz">
+<div class="sec-title"><span class="num">測驗</span>自我評量</div>
+<p class="desc" style="margin-bottom:16px">點一下題目查看答案。確認自己真正理解後再翻答案。</p>
+
+<div class="qc" onclick="tq(this)"><div class="q">1. 劉氏染色共有幾液？各自的主要功能是什麼？</div><div class="a">共三液。第一液（甲醇）：固定細胞。第二液（伊紅）：酸性染料，染細胞質與紅血球為粉紅色。第三液（亞甲藍）：鹼性染料，染細胞核為藍紫色。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">2. 製作抹片時，血滴大小建議是多少？放在玻片的哪個位置？</div><div class="a">約 2–3 mm（綠豆大小）。放在距玻片一端約 1–1.5 cm 處，不是最末端。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">3. 推片的角度建議是幾度？角度大小對抹片厚薄有什麼影響？</div><div class="a">30–45°。角度越小→抹片越薄；角度越大→抹片越厚。白血球較高時可用較小角度。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">4. 抹片做好後需要怎麼乾燥？可以用紙巾擦乾嗎？</div><div class="a">在空氣中自然風乾，不可加熱。不可用紙巾擦拭抹片面，會把細胞刮掉。完全乾燥後才可染色。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">5. 第一液（甲醇固定液）使用時，有什麼安全注意事項？</div><div class="a">甲醇有毒且易燃，需戴手套、在通風處操作，絕對不可靠近火源或酒精燈。沾到皮膚立即以大量清水沖洗。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">6. 染色完成後沖洗，建議用什麼水？為什麼不用自來水？</div><div class="a">蒸餾水或緩衝液。自來水 pH 值不穩定，偏酸會使抹片偏粉，偏鹼會使抹片偏藍，影響染色品質。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">7. 染色後整片顏色太藍，最常見的原因是什麼？</div><div class="a">第三液（亞甲藍）浸泡時間太長、沖洗不足，或沖洗水偏鹼性。可縮短第三液時間並加強沖洗。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">8. 抹片上有圓形空洞（中央沒有細胞），最可能的原因是什麼？</div><div class="a">玻片表面有油脂，通常是手指觸碰過玻片表面造成。應更換乾淨玻片，取片時只碰邊緣。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">9. 染色後大量細胞脫落，玻片幾乎空白，可能是什麼原因？</div><div class="a">抹片未完全乾燥就放入染液，或玻片有油脂。需確認完全乾燥後再染色，並使用乾淨無油脂的玻片。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">10. 背景有大量藍色沉澱顆粒，應該怎麼處理？</div><div class="a">加強第三液後的沖洗，確認沖洗至流出水接近透明。若沖洗充足仍有問題，懷疑試劑污染或過期，告知醫師更換新液。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">11. 在玻片上標記動物資訊，為什麼不可以用原子筆？</div><div class="a">因為第一液含甲醇，甲醇會溶解原子筆墨水，導致標記消失。應使用鉛筆在磨砂端書寫。</div><div class="hn">點一下查看答案</div></div>
+
+<div class="qc" onclick="tq(this)"><div class="q">12. 耳道分泌物塗抹時，棉棒應該用「滾動」還是「來回刷」的方式？為什麼？</div><div class="a">應用「滾動」方式塗抹，不可來回刷。來回刷會破壞細胞結構，使細胞形態不完整，影響診斷。</div><div class="hn">點一下查看答案</div></div>
+
+</div><!-- /qz -->
+
+</div><!-- /content -->
+
+<footer>
+  <div style="font-size:18px">🐾</div>
+  <div style="margin-top:6px"><em>It's a beautiful day to save lives.</em></div>
+  <div style="margin-top:4px">人人動物醫院平鎮分院　住院部訓練講義 第五冊</div>
+</footer>
+
+<script>
+function switchTab(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function tq(el){
+  el.classList.toggle('rv');
+  el.querySelector('.hn').style.display=el.classList.contains('rv')?'none':'';
+}
+function doSearch(val){
+  val=val.trim().toLowerCase();
+  document.querySelectorAll('mark').forEach(m=>m.replaceWith(m.textContent));
+  if(!val)return;
+  document.querySelectorAll('td,.bdy,.step-body,.desc,.cc-desc,.cc-name,.qgrade-body').forEach(el=>{
+    if(el.textContent.toLowerCase().includes(val)){
+      el.innerHTML=el.innerHTML.replace(new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>'<mark>'+m+'</mark>');
+    }
+  });
+}
+</script>
+</body>
+</html>
