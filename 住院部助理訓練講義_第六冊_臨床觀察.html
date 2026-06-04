@@ -13,7 +13,8 @@ body{font-family:'Noto Sans TC',sans-serif;background:#F4FAFA;color:var(--tt);fo
 .site-header .hosp{font-size:12px;letter-spacing:2px;opacity:.75;margin-bottom:4px;font-weight:300}
 .site-header h1{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;letter-spacing:1px}
 .site-header .sub{font-size:12px;opacity:.65;margin-top:4px;letter-spacing:1px}
-.tab-bar{display:flex;background:#1A4A4A;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--tm);position:sticky;top:0;z-index:95}
+.sticky-top{position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(42,107,107,.3)}
+.tab-bar{display:flex;background:#1A4A4A;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--tm)}
 .tab-bar::-webkit-scrollbar{display:none}
 .tab-btn{flex:0 0 auto;padding:10px 18px;font-size:13px;color:rgba(255,255,255,.6);background:none;border:none;cursor:pointer;white-space:nowrap;font-family:'Noto Sans TC',sans-serif;font-weight:500;transition:all .2s;border-bottom:3px solid transparent;margin-bottom:-2px}
 .tab-btn.active,.tab-btn:hover{color:white;border-bottom-color:#7ECECE}
@@ -105,19 +106,20 @@ mark{background:#FFF176;color:inherit;border-radius:2px;padding:0 1px}
   <h1>住院部助理自學訓練講義</h1>
   <div class="sub">第六冊：犬貓的臨床觀察 ✦ Clinical Monitoring</div>
 </header>
-<nav class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('m1',this)">模組一　脫水評估</button>
-  <button class="tab-btn" onclick="switchTab('m2',this)">模組二　尿量與尿色</button>
-  <button class="tab-btn" onclick="switchTab('m3',this)">模組三　黏膜顏色</button>
-  <button class="tab-btn" onclick="switchTab('m4',this)">模組四　糞便評估</button>
-  <button class="tab-btn" onclick="switchTab('qz',this)">📝 自我測驗</button>
+<nav class="tab-bar" id="tabBar">
+  <button class="tab-btn active" id="btn-m1" onclick="ST('m1')">模組一　脫水評估</button>
+  <button class="tab-btn" id="btn-m2" onclick="ST('m2')">模組二　尿量與尿色</button>
+  <button class="tab-btn" id="btn-m3" onclick="ST('m3')">模組三　黏膜顏色</button>
+  <button class="tab-btn" id="btn-m4" onclick="ST('m4')">模組四　糞便評估</button>
+  <button class="tab-btn" id="btn-m5" onclick="ST('m5')">模組五　引流液評估</button>
+  <button class="tab-btn" id="btn-qz" onclick="ST('qz')">📝 自我測驗</button>
 </nav>
 </div>
 
 <div class="content">
 
 <!-- ===== MODULE 1 脫水 ===== -->
-<div class="section active" id="m1">
+<div class="section" id="m1" style="display:block">
 <div class="sec-title"><span class="num">模組一</span>犬貓的脫水評估</div>
 <p class="desc">脫水（Dehydration）是住院動物最常見的問題之一。助理需透過皮膚彈性（皮膚張力試驗）、眼眶凹陷程度、黏膜乾燥度及精神狀態，初步判斷脫水程度，並即時回報醫師。</p>
 
@@ -191,7 +193,7 @@ mark{background:#FFF176;color:inherit;border-radius:2px;padding:0 1px}
 </div><!-- /m1 -->
 
 <!-- ===== MODULE 2 尿量尿色 ===== -->
-<div class="section" id="m2">
+<div class="section" id="m2" style="display:none">
 <div class="sec-title"><span class="num">模組二</span>犬貓正常尿量及尿色觀察</div>
 <p class="desc">尿液是腎臟功能與體液狀態的直接指標。住院動物若有置尿管（Foley catheter），助理須每小時記錄尿量並觀察尿色，任何異常須立即回報。</p>
 
@@ -285,63 +287,6 @@ mark{background:#FFF176;color:inherit;border-radius:2px;padding:0 1px}
   </div>
 </div>
 
-<script>
-function calcUrine(){
-  var w=parseFloat(document.getElementById('uc-weight').value);
-  var u=parseFloat(document.getElementById('uc-urine').value);
-  var h=parseFloat(document.getElementById('uc-hours').value);
-  var res=document.getElementById('uc-result');
-  if(isNaN(w)||isNaN(u)||isNaN(h)||w<=0||h<=0||u<0){res.style.display='none';return;}
-  var rate=(u/w/h);
-  var rateStr=rate.toFixed(2);
-  document.getElementById('uc-rate').textContent=rateStr+' ml/kg/hr';
-  document.getElementById('uc-rate-label').textContent='換算尿量';
-
-  var hdr=document.getElementById('uc-result-header');
-  var badge=document.getElementById('uc-badge');
-  var detail=document.getElementById('uc-detail');
-  var icon=document.getElementById('uc-icon');
-  var border=document.getElementById('uc-result');
-
-  if(u===0){
-    hdr.style.background='#FDECEA'; hdr.style.color='#8B1A14';
-    border.style.borderColor='#C0392B';
-    icon.textContent='🚨';
-    badge.textContent='無尿'; badge.style.background='#C0392B'; badge.style.color='white';
-    detail.style.background='#FEF5F0'; detail.style.color='#8B1A14';
-    detail.innerHTML='<strong>完全無尿！</strong>請立即通報醫師。可能原因：尿管阻塞、急性腎損傷（AKI）、嚴重低血壓或休克。先確認尿管是否通暢。';
-  } else if(rate<0.5){
-    hdr.style.background='#FDECEA'; hdr.style.color='#8B1A14';
-    border.style.borderColor='#C0392B';
-    icon.textContent='🚨';
-    badge.textContent='少尿'; badge.style.background='#C0392B'; badge.style.color='white';
-    detail.style.background='#FEF5F0'; detail.style.color='#8B1A14';
-    detail.innerHTML='<strong>少尿（Oliguria）</strong>，尿量低於正常警戒值 0.5 ml/kg/hr。<br>可能原因：急性腎損傷（AKI）、嚴重脫水、低血壓、輸液速率不足。<strong>立即通報醫師，切勿自行調整輸液。</strong>';
-  } else if(rate<=2){
-    hdr.style.background='#EAF7EF'; hdr.style.color='#1A5C35';
-    border.style.borderColor='#4CAF80';
-    icon.textContent='✅';
-    badge.textContent='正常'; badge.style.background='#4CAF80'; badge.style.color='white';
-    detail.style.background='#F0FAF3'; detail.style.color='#1A5C35';
-    detail.innerHTML='尿量在正常維持範圍（1–2 ml/kg/hr）。繼續每小時監測，若尿色出現異常仍需回報醫師。';
-  } else if(rate<=3){
-    hdr.style.background='#FFF8E1'; hdr.style.color='#7A5000';
-    border.style.borderColor='#E8C84A';
-    icon.textContent='⚠️';
-    badge.textContent='尿量偏多'; badge.style.background='#E8C84A'; badge.style.color='#5A3A00';
-    detail.style.background='#FFFDE7'; detail.style.color='#7A5000';
-    detail.innerHTML='尿量稍高於正常範圍。可能原因：輸液速率較快、早期多尿、電解質異常。<strong>記錄並回報醫師</strong>，密切追蹤。';
-  } else {
-    hdr.style.background='#FDECEA'; hdr.style.color='#8B1A14';
-    border.style.borderColor='#C0392B';
-    icon.textContent='⚠️';
-    badge.textContent='多尿'; badge.style.background='#E8504A'; badge.style.color='white';
-    detail.style.background='#FEF5F0'; detail.style.color='#8B1A14';
-    detail.innerHTML='<strong>多尿（Polyuria）</strong>，尿量超過 3 ml/kg/hr。可能原因：輸液過速、腎臟濃縮功能下降（CKD、DI）、高血糖（糖尿病）、使用利尿劑。<strong>回報醫師</strong>，評估輸液速率是否需調整。';
-  }
-  res.style.display='block';
-}
-</script>
 
 <div class="sub-title">2.3　尿色辨識圖表</div>
 <p class="desc">尿液顏色由深至淺反映水合狀態，異常顏色可能提示血尿、溶血、感染或肌肉壞死等問題。</p>
@@ -392,7 +337,7 @@ function calcUrine(){
 </div><!-- /m2 -->
 
 <!-- ===== MODULE 3 黏膜顏色 ===== -->
-<div class="section" id="m3">
+<div class="section" id="m3" style="display:none">
 <div class="sec-title"><span class="num">模組三</span>犬貓黏膜顏色與 CRT 評估</div>
 <p class="desc">黏膜（Mucous Membrane, MM）顏色與微血管充填時間（Capillary Refill Time, CRT）是住院助理每次巡房必做的兩項評估。兩者合併判讀，能快速反映動物的<strong>循環狀態、氧合能力與組織灌流</strong>是否正常。</p>
 
@@ -564,7 +509,7 @@ function calcUrine(){
 </div><!-- /m3 -->
 
 <!-- ===== MODULE 4 糞便評估 ===== -->
-<div class="section" id="m4">
+<div class="section" id="m4" style="display:none">
 <div class="sec-title"><span class="num">模組四</span>犬貓糞便評估</div>
 <p class="desc">住院動物每次排便後，助理須觀察糞便的<strong>性狀、顏色、量、氣味及異物</strong>，並記錄於病歷護理表。異常糞便可能反映感染、腸道出血、胰臟或肝臟問題，需及時回報。</p>
 
@@ -650,8 +595,241 @@ function calcUrine(){
 </div>
 </div><!-- /m4 -->
 
+<!-- ===== MODULE 5 引流液 ===== -->
+<div class="section" id="m5" style="display:none">
+<div class="sec-title"><span class="num">模組五</span>胸水／腹水引流液評估</div>
+<p class="desc">住院動物若留置引流管或引流球（Jackson-Pratt drain），助理需定時記錄引流量、觀察外觀，並依照標準程序操作引流球倒液與消毒，避免逆行感染。</p>
+
+<div class="mi"><strong>🩺 為什麼要評估引流液？</strong>引流液的量與性狀反映體腔積液的嚴重程度與癒合進展。異常顏色或突然大量增加可能代表出血、感染或器官損傷，需立即通報醫師。</div>
+
+<div class="sub-title">5.1　引流量計算機</div>
+<p class="desc">輸入動物體重、引流量與觀察時間，自動計算每小時引流速率並判斷是否需回報。</p>
+
+<div id="drain-calc" style="background:white;border:1.5px solid var(--tl);border-radius:12px;overflow:hidden;margin-bottom:16px;box-shadow:0 2px 10px rgba(42,107,107,.1)">
+  <div style="background:linear-gradient(135deg,#1A4A4A,#2A6B6B);padding:14px 18px;color:white">
+    <div style="font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700">🧪 引流量計算機</div>
+    <div style="font-size:12px;opacity:.75;margin-top:2px">胸水 / 腹水引流速率評估</div>
+  </div>
+  <div style="padding:16px 18px 8px">
+    <div style="display:flex;gap:8px;margin-bottom:10px">
+      <div style="flex:1">
+        <label style="font-size:12px;font-weight:700;color:var(--td);display:block;margin-bottom:5px">種類</label>
+        <select id="dc-type" style="width:100%;padding:10px 8px;border:1.5px solid var(--tl);border-radius:8px;font-size:14px;font-family:'Noto Sans TC',sans-serif;color:var(--tt);background:var(--tb);outline:none" onchange="calcDrain()">
+          <option value="pleural">胸水</option>
+          <option value="ascites">腹水</option>
+        </select>
+      </div>
+      <div style="flex:1">
+        <label style="font-size:12px;font-weight:700;color:var(--td);display:block;margin-bottom:5px">體重（kg）</label>
+        <input id="dc-weight" type="number" min="0.1" step="0.1" placeholder="例：5.0"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--tl);border-radius:8px;font-size:15px;font-family:'Noto Sans TC',sans-serif;color:var(--tt);background:var(--tb);outline:none"
+          oninput="calcDrain()" onfocus="this.style.borderColor='var(--tm)'" onblur="this.style.borderColor='var(--tl)'">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:4px">
+      <div style="flex:1">
+        <label style="font-size:12px;font-weight:700;color:var(--td);display:block;margin-bottom:5px">引流量（ml）</label>
+        <input id="dc-vol" type="number" min="0" step="0.5" placeholder="例：20"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--tl);border-radius:8px;font-size:15px;font-family:'Noto Sans TC',sans-serif;color:var(--tt);background:var(--tb);outline:none"
+          oninput="calcDrain()" onfocus="this.style.borderColor='var(--tm)'" onblur="this.style.borderColor='var(--tl)'">
+      </div>
+      <div style="flex:1">
+        <label style="font-size:12px;font-weight:700;color:var(--td);display:block;margin-bottom:5px">觀察時間（hr）</label>
+        <input id="dc-hours" type="number" min="0.25" step="0.25" placeholder="例：4"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--tl);border-radius:8px;font-size:15px;font-family:'Noto Sans TC',sans-serif;color:var(--tt);background:var(--tb);outline:none"
+          oninput="calcDrain()" onfocus="this.style.borderColor='var(--tm)'" onblur="this.style.borderColor='var(--tl)'">
+      </div>
+    </div>
+  </div>
+
+  <div id="dc-result" style="display:none;margin:0 18px 16px;border-radius:10px;overflow:hidden;border:2px solid #ccc">
+    <div id="dc-result-header" style="padding:14px 16px;display:flex;align-items:center;gap:12px">
+      <div id="dc-icon" style="font-size:28px;line-height:1"></div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;opacity:.75">計算結果</div>
+        <div id="dc-rate" style="font-family:'Noto Serif TC',serif;font-size:24px;font-weight:700;line-height:1.2"></div>
+      </div>
+      <div id="dc-badge" style="padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;white-space:nowrap"></div>
+    </div>
+    <div id="dc-detail" style="padding:10px 16px 14px;font-size:13px;line-height:1.7;border-top:1px solid rgba(0,0,0,.08)"></div>
+  </div>
+</div>
+
+<script>
+function calcDrain(){
+  var type=document.getElementById('dc-type').value;
+  var w=parseFloat(document.getElementById('dc-weight').value);
+  var v=parseFloat(document.getElementById('dc-vol').value);
+  var h=parseFloat(document.getElementById('dc-hours').value);
+  var res=document.getElementById('dc-result');
+  if(isNaN(w)||isNaN(v)||isNaN(h)||w<=0||h<=0||v<0){res.style.display='none';return;}
+  var rate=v/h;
+  var ratePerKg=v/w/h;
+  document.getElementById('dc-rate').textContent=rate.toFixed(1)+' ml/hr　（'+ratePerKg.toFixed(2)+' ml/kg/hr）';
+  var hdr=document.getElementById('dc-result-header');
+  var badge=document.getElementById('dc-badge');
+  var detail=document.getElementById('dc-detail');
+  var icon=document.getElementById('dc-icon');
+  var border=document.getElementById('dc-result');
+  var label=type==='pleural'?'胸水':'腹水';
+
+  if(v===0){
+    hdr.style.background='#EEF8F8';hdr.style.color='var(--td)';
+    border.style.borderColor='var(--tl)';
+    icon.textContent='✅';
+    badge.textContent='無引流液';badge.style.background='var(--td)';badge.style.color='white';
+    detail.style.background='var(--tp)';detail.style.color='var(--ti)';
+    detail.innerHTML='此觀察期間無引流液。確認引流管是否通暢（有無折曲、阻塞），若確認通暢則記錄並繼續觀察。';
+  } else if(rate<=2){
+    hdr.style.background='#EAF7EF';hdr.style.color='#1A5C35';
+    border.style.borderColor='#4CAF80';
+    icon.textContent='✅';
+    badge.textContent='量少，正常';badge.style.background='#4CAF80';badge.style.color='white';
+    detail.style.background='#F0FAF3';detail.style.color='#1A5C35';
+    detail.innerHTML=label+'引流量少（≤ 2 ml/hr），屬正常術後或治療中的少量引流。記錄引流量與外觀，繼續定時監測。';
+  } else if(rate<=5){
+    hdr.style.background='#FFF8E1';hdr.style.color='#7A5000';
+    border.style.borderColor='#E8C84A';
+    icon.textContent='⚠️';
+    badge.textContent='量中，需留意';badge.style.background='#E8A000';badge.style.color='white';
+    detail.style.background='#FFFDE7';detail.style.color='#7A5000';
+    detail.innerHTML=label+'引流量中等（2–5 ml/hr）。記錄外觀顏色，<strong>回報醫師</strong>確認是否在預期範圍內，並密切觀察是否持續增加。';
+  } else if(rate<=10){
+    hdr.style.background='#FFF0E0';hdr.style.color='#7A3010';
+    border.style.borderColor='#E08060';
+    icon.textContent='⚠️';
+    badge.textContent='量多，立即回報';badge.style.background='#E06030';badge.style.color='white';
+    detail.style.background='#FEF5F0';detail.style.color='#7A3010';
+    detail.innerHTML='<strong>'+label+'引流量偏多（5–10 ml/hr）</strong>，超出一般術後預期。可能代表持續積液或早期出血。<strong>立即通報醫師</strong>，記錄外觀顏色與時間。';
+  } else {
+    hdr.style.background='#FDECEA';hdr.style.color='#8B1A14';
+    border.style.borderColor='#C0392B';
+    icon.textContent='🚨';
+    badge.textContent='大量，緊急';badge.style.background='#C0392B';badge.style.color='white';
+    detail.style.background='#FEF5F0';detail.style.color='#8B1A14';
+    detail.innerHTML='<strong>🚨 '+label+'大量引流（> 10 ml/hr）</strong>！可能為活動性出血或大量積液快速再積聚。<strong>立即緊急通報醫師</strong>，保留引流液勿倒棄，準備相關處置。';
+  }
+  res.style.display='block';
+}
+</script>
+
+<div class="sub-title">5.2　引流液外觀描述對照表</div>
+<p class="desc">每次倒出引流液時，觀察顏色、透明度與性狀，並記錄在護理表上。</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>外觀</th><th>顏色描述</th><th>可能意義</th><th>緊急程度</th></tr></thead>
+<tbody>
+<tr><td>淡黃色透明</td><td>清澈至淡稻草黃</td><td>正常漏出液（transudate），術後早期正常引流</td><td>✅ 正常，記錄</td></tr>
+<tr><td>淡粉紅色</td><td>微帶血色，仍透明</td><td>術後初期少量滲血，常見於剛放管後 12–24 hr</td><td>⚠️ 觀察趨勢</td></tr>
+<tr><td>鮮紅色</td><td>鮮血色，不透明</td><td>活動性出血，血胸/腹腔出血</td><td>🚨 立即通報</td></tr>
+<tr><td>深紅/棕紅色</td><td>暗沉血色</td><td>陳舊性出血或血液分解</td><td>⚠️ 立即回報醫師</td></tr>
+<tr><td>混濁白/乳白色</td><td>牛奶狀混濁</td><td>乳糜胸（chylothorax）、淋巴管損傷</td><td>⚠️ 立即回報醫師</td></tr>
+<tr><td>黃綠色混濁</td><td>膿樣，有異味</td><td>感染、膿胸/腹膜炎</td><td>🚨 立即通報</td></tr>
+<tr><td>黃褐色/咖啡色</td><td>深色混濁</td><td>膽汁外漏、腸道穿孔、嚴重感染</td><td>🚨 緊急通報</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="notice warn">
+  <div class="lbl">⚠️<br>重要</div>
+  <div class="bdy">
+    發現引流液顏色由淡轉深、由透明變混濁，或突然量大增，<strong>不要先倒掉</strong>，保留讓醫師確認後再處理，必要時取樣送檢。
+  </div>
+</div>
+
+<div class="sub-title">5.3　胸水 vs 腹水引流液差異</div>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>項目</th><th>胸水（Pleural effusion）</th><th>腹水（Ascites）</th></tr></thead>
+<tbody>
+<tr><td>引流管位置</td><td>胸腔側壁（肋間）</td><td>腹腔側壁或下腹部</td></tr>
+<tr><td>正常外觀</td><td>淡黃透明至淡粉紅</td><td>淡黃透明至淡稻草黃</td></tr>
+<tr><td>正常量參考</td><td>術後逐漸減少，&lt; 2 ml/hr 為佳</td><td>視病因而定，需醫師設定目標</td></tr>
+<tr><td>特殊注意</td><td>乳白色 → 乳糜胸；大量鮮血 → 血胸</td><td>量大且快速再積 → 可能持續病因未解決</td></tr>
+<tr><td>引流速率限制</td><td>一次不宜過快，避免復張性肺水腫</td><td>大量腹水一次引流需補充白蛋白（醫師指示）</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="sub-title">5.4　引流球操作步驟（倒出引流液）</div>
+<p class="desc">引流球（Jackson-Pratt Drain / Bulb drain）利用負壓原理持續吸引引流液。操作時需維持無菌原則，避免細菌逆行進入體腔。</p>
+
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+  <div style="display:flex;gap:12px;align-items:flex-start;background:white;border:1.5px solid var(--tl);border-radius:10px;padding:12px 16px">
+    <div style="background:var(--td);color:white;font-weight:700;font-size:14px;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</div>
+    <div><strong>準備用物</strong><br><span style="font-size:13px;color:var(--ti)">無菌手套、量杯或量筒、優碘棉棒或酒精棉片、護理記錄單。洗手後戴手套。</span></div>
+  </div>
+  <div style="display:flex;gap:12px;align-items:flex-start;background:white;border:1.5px solid var(--tl);border-radius:10px;padding:12px 16px">
+    <div style="background:var(--td);color:white;font-weight:700;font-size:14px;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</div>
+    <div><strong>觀察引流球外觀</strong><br><span style="font-size:13px;color:var(--ti)">倒液前先觀察並記錄引流液的<strong>顏色、透明度、有無血塊或懸浮物</strong>，及引流球是否仍維持壓扁（負壓）狀態。</span></div>
+  </div>
+  <div style="display:flex;gap:12px;align-items:flex-start;background:white;border:1.5px solid var(--tl);border-radius:10px;padding:12px 16px">
+    <div style="background:var(--td);color:white;font-weight:700;font-size:14px;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</div>
+    <div><strong>用止血鉗夾住引流管</strong><br><span style="font-size:13px;color:var(--ti)">在靠近動物皮膚的引流管處，用<strong>止血鉗夾緊管路</strong>，防止打開排液孔時空氣或液體經由管路逆流進入體腔。確認夾緊後再進行下一步。</span></div>
+  </div>
+  <div style="display:flex;gap:12px;align-items:flex-start;background:white;border:1.5px solid var(--tl);border-radius:10px;padding:12px 16px">
+    <div style="background:var(--td);color:white;font-weight:700;font-size:14px;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">4</div>
+    <div><strong>消毒排液孔（plug）</strong><br><span style="font-size:13px;color:var(--ti)">用<strong>酒精棉片</strong>包住排液孔塞子，順時針旋轉擦拭 5–10 秒，待乾後再打開。<strong>不可直接用手觸碰排液孔內側。</strong></span></div>
+  </div>
+  <div style="display:flex;gap:12px;align-items:flex-start;background:white;border:1.5px solid var(--tl);border-radius:10px;padding:12px 16px">
+    <div style="background:var(--td);color:white;font-weight:700;font-size:14px;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">5</div>
+    <div><strong>打開排液孔，倒出引流液</strong><br><span style="font-size:13px;color:var(--ti)">將引流球倒置，引流液流入量杯。倒液時引流球<strong>不要完全壓扁</strong>再倒，讓液體自然流出。記錄毫升數。</span></div>
+  </div>
+  <div style="display:flex;gap:12px;align-items:flex-start;background:white;border:1.5px solid var(--tl);border-radius:10px;padding:12px 16px">
+    <div style="background:var(--td);color:white;font-weight:700;font-size:14px;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">6</div>
+    <div><strong>重建負壓</strong><br><span style="font-size:13px;color:var(--ti)">將引流球<strong>完全壓扁排氣</strong>，在壓扁狀態下<strong>快速塞回排液孔</strong>並旋緊，形成負壓。確認引流球維持壓扁不回彈（代表負壓建立成功）。</span></div>
+  </div>
+  <div style="display:flex;gap:12px;align-items:flex-start;background:white;border:1.5px solid var(--tl);border-radius:10px;padding:12px 16px">
+    <div style="background:var(--td);color:white;font-weight:700;font-size:14px;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">7</div>
+    <div><strong>移除止血鉗</strong><br><span style="font-size:13px;color:var(--ti)">負壓重建確認後，<strong>才可移除止血鉗</strong>，讓引流球開始重新抽吸。移除後確認引流球仍維持壓扁狀態。</span></div>
+  </div>
+  <div style="display:flex;gap:12px;align-items:flex-start;background:white;border:1.5px solid var(--tl);border-radius:10px;padding:12px 16px">
+    <div style="background:var(--td);color:white;font-weight:700;font-size:14px;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">8</div>
+    <div><strong>消毒排液孔外側</strong><br><span style="font-size:13px;color:var(--ti)">再次用酒精棉片擦拭塞子外側，待乾。確認連接管與動物皮膚固定良好，引流管無折曲。</span></div>
+  </div>
+  <div style="display:flex;gap:12px;align-items:flex-start;background:#EEF8F8;border:1.5px solid var(--tm);border-radius:10px;padding:12px 16px">
+    <div style="background:var(--tm);color:white;font-weight:700;font-size:14px;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">✓</div>
+    <div><strong>記錄與回報</strong><br><span style="font-size:13px;color:var(--ti)">記錄格式：「引流量 __ ml，顏色：淡黃透明，負壓已重建，管路通暢」。異常立即通報醫師。</span></div>
+  </div>
+</div>
+
+<div class="notice warn">
+  <div class="lbl">🚫<br>禁止</div>
+  <div class="bdy">
+    <strong>以下操作嚴禁：</strong><br>
+    ✦ 打開排液孔前未消毒 → 細菌逆行感染風險<br>
+    ✦ 塞回排液孔後未重建負壓 → 引流球失去抽吸功能<br>
+    ✦ 用手指直接觸碰排液孔內側或管口<br>
+    ✦ 引流球已脹滿還沒倒（應每 4–8 小時或依醫師指示定時倒液）
+  </div>
+</div>
+
+<div class="sub-title">5.5　引流管周圍傷口觀察</div>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>觀察項目</th><th>正常</th><th>異常 / 須回報</th></tr></thead>
+<tbody>
+<tr><td>管路插入處皮膚</td><td>輕微紅腫（術後 1–2 天），乾燥</td><td>明顯紅腫熱痛、滲液、化膿、皮膚壞死</td></tr>
+<tr><td>固定縫線</td><td>完整固定，無鬆脫</td><td>縫線鬆脫或管路移位，立即回報</td></tr>
+<tr><td>引流管通暢</td><td>引流球持續維持負壓（壓扁）</td><td>引流球鼓起（漏氣或負壓消失）、管路折曲阻塞</td></tr>
+<tr><td>動物行為</td><td>正常活動，不理會引流球</td><td>持續舔咬引流球或管路，需戴頭套</td></tr>
+<tr><td>引流球連接處</td><td>管路連接緊密，無滲漏</td><td>連接處鬆脫、液體外漏至傷口</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="notice tip">
+  <div class="lbl">💡<br>提醒</div>
+  <div class="bdy">
+    引流球操作頻率依醫師指示，一般為每 <strong>4–8 小時</strong>倒一次，或引流球裝滿時立即倒。記錄時同時標記<strong>倒液時間</strong>，方便下一班助理接班確認。
+  </div>
+</div>
+
+</div><!-- /m5 -->
+
 <!-- ===== QUIZ ===== -->
-<div class="section" id="qz">
+<div class="section" id="qz" style="display:none">
 <div class="sec-title"><span class="num">測驗</span>自我評量</div>
 <p class="desc" style="margin-bottom:16px">點一下題目查看答案。測試自己對本冊的掌握程度！</p>
 
@@ -677,15 +855,85 @@ function calcUrine(){
 </footer>
 
 <script>
-function switchTab(id,btn){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+var TABS = ['m1','m2','m3','m4','m5','qz'];
+
+function ST(id) {
+  for (var i = 0; i < TABS.length; i++) {
+    var sec = document.getElementById(TABS[i]);
+    var btn = document.getElementById('btn-' + TABS[i]);
+    if (sec) sec.style.display = (TABS[i] === id) ? 'block' : 'none';
+    if (btn) btn.className = (TABS[i] === id) ? 'tab-btn active' : 'tab-btn';
+  }
+  window.scrollTo(0, 0);
 }
-function tq(el){
+
+function tq(el) {
   el.classList.toggle('rv');
-  el.querySelector('.hn').style.display=el.classList.contains('rv')?'none':'';
+  var hn = el.querySelector('.hn');
+  if (hn) hn.style.display = el.classList.contains('rv') ? 'none' : '';
+}
+
+function calcUrine(){
+  var w=parseFloat(document.getElementById('uc-weight').value);
+  var u=parseFloat(document.getElementById('uc-urine').value);
+  var h=parseFloat(document.getElementById('uc-hours').value);
+  var res=document.getElementById('uc-result');
+  if(isNaN(w)||isNaN(u)||isNaN(h)||w<=0||h<=0||u<0){res.style.display='none';return;}
+  var rate=(u/w/h);
+  var rateStr=rate.toFixed(2);
+  document.getElementById('uc-rate').textContent=rateStr+' ml/kg/hr';
+  document.getElementById('uc-rate-label').textContent='換算尿量';
+
+  var hdr=document.getElementById('uc-result-header');
+  var badge=document.getElementById('uc-badge');
+  var detail=document.getElementById('uc-detail');
+  var icon=document.getElementById('uc-icon');
+  var border=document.getElementById('uc-result');
+
+  if(u===0){
+    hdr.style.background='#FDECEA'; hdr.style.color='#8B1A14';
+    border.style.borderColor='#C0392B';
+    icon.textContent='🚨';
+    badge.textContent='無尿'; badge.style.background='#C0392B'; badge.style.color='white';
+    detail.style.background='#FEF5F0'; detail.style.color='#8B1A14';
+    detail.innerHTML='<strong>完全無尿！</strong>請立即通報醫師。可能原因：尿管阻塞、急性腎損傷（AKI）、嚴重低血壓或休克。先確認尿管是否通暢。';
+  } else if(rate<0.5){
+    hdr.style.background='#FDECEA'; hdr.style.color='#8B1A14';
+    border.style.borderColor='#C0392B';
+    icon.textContent='🚨';
+    badge.textContent='少尿'; badge.style.background='#C0392B'; badge.style.color='white';
+    detail.style.background='#FEF5F0'; detail.style.color='#8B1A14';
+    detail.innerHTML='<strong>少尿（Oliguria）</strong>，尿量低於警戒值 0.5 ml/kg/hr。<br>可能原因：急性腎損傷（AKI）、嚴重脫水、低血壓、輸液速率不足。<strong>立即通報醫師，切勿自行調整輸液。</strong>';
+  } else if(rate<1){
+    hdr.style.background='#FFF8E1'; hdr.style.color='#7A5000';
+    border.style.borderColor='#E8C84A';
+    icon.textContent='⚠️';
+    badge.textContent='尿量偏低'; badge.style.background='#E8A000'; badge.style.color='white';
+    detail.style.background='#FFFDE7'; detail.style.color='#7A5000';
+    detail.innerHTML='<strong>尿量偏低（0.5–1.0 ml/kg/hr）</strong>，低於正常維持範圍（1–2 ml/kg/hr）。<br>可能原因：輸液速率不足、早期脫水、腎功能下降。<strong>記錄並回報醫師</strong>，密切追蹤是否繼續下降。';
+  } else if(rate<=2){
+    hdr.style.background='#EAF7EF'; hdr.style.color='#1A5C35';
+    border.style.borderColor='#4CAF80';
+    icon.textContent='✅';
+    badge.textContent='正常'; badge.style.background='#4CAF80'; badge.style.color='white';
+    detail.style.background='#F0FAF3'; detail.style.color='#1A5C35';
+    detail.innerHTML='尿量在正常維持範圍（1–2 ml/kg/hr）。繼續每小時監測，若尿色出現異常仍需回報醫師。';
+  } else if(rate<=3){
+    hdr.style.background='#FFF8E1'; hdr.style.color='#7A5000';
+    border.style.borderColor='#E8C84A';
+    icon.textContent='⚠️';
+    badge.textContent='尿量偏多'; badge.style.background='#E8C84A'; badge.style.color='#5A3A00';
+    detail.style.background='#FFFDE7'; detail.style.color='#7A5000';
+    detail.innerHTML='尿量稍高於正常範圍。可能原因：輸液速率較快、早期多尿、電解質異常。<strong>記錄並回報醫師</strong>，密切追蹤。';
+  } else {
+    hdr.style.background='#FDECEA'; hdr.style.color='#8B1A14';
+    border.style.borderColor='#C0392B';
+    icon.textContent='⚠️';
+    badge.textContent='多尿'; badge.style.background='#E8504A'; badge.style.color='white';
+    detail.style.background='#FEF5F0'; detail.style.color='#8B1A14';
+    detail.innerHTML='<strong>多尿（Polyuria）</strong>，尿量超過 3 ml/kg/hr。可能原因：輸液過速、腎臟濃縮功能下降（CKD、DI）、高血糖（糖尿病）、使用利尿劑。<strong>回報醫師</strong>，評估輸液速率是否需調整。';
+  }
+  res.style.display='block';
 }
 </script>
 </body>
